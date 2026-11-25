@@ -1,0 +1,3643 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دوره جامع هوش مصنوعی دبیرستان سخت‌کوشان</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== 1. DESIGN TOKENS (NEW COLOR PALETTE) ==================== */
+        :root {
+            /* Palette Provided by User */
+            --c-34117E: #34117E; /* Deep Background Surface */
+            --c-491AB1: #491AB1; /* Elevated Surface / Borders */
+            --c-6631DB: #6631DB; /* Primary Brand */
+            --c-7B45F0: #7B45F0; /* Primary Hover / Accent Glow */
+            --c-A981FF: #A981FF; /* Light Highlight */
+            --c-B796FE: #B796FE; /* Soft Text & Icons */
+            --c-D0BCFC: #D0BCFC; /* Light Pastel Borders & Badges */
+
+            /* Functional System Colors */
+            --primary: #6631DB;
+            --primary-hover: #7B45F0;
+            --primary-active: #491AB1;
+            --primary-soft: rgba(102, 49, 219, 0.22);
+            --primary-glow: rgba(123, 69, 240, 0.45);
+
+            --accent: #A981FF;
+            --accent-soft: rgba(169, 129, 255, 0.16);
+
+            --bg-main: #120427;
+            --bg-surface: #220B50;
+            --bg-elevated: #34117E;
+            --bg-card: rgba(52, 17, 126, 0.78);
+            --bg-input: rgba(22, 7, 51, 0.92);
+
+            --text-primary: #F8FAFC;
+            --text-secondary: #D0BCFC;
+            --text-muted: #B796FE;
+
+            --border-subtle: rgba(208, 188, 252, 0.2);
+            --border-strong: rgba(208, 188, 252, 0.38);
+            --border-focus: #A981FF;
+
+            --success: #10B981;
+            --success-soft: rgba(16, 185, 129, 0.18);
+
+            --warning: #F59E0B;
+            --warning-soft: rgba(245, 158, 11, 0.18);
+
+            --danger: #EF4444;
+            --danger-soft: rgba(239, 68, 68, 0.18);
+
+            --radius-xs: 6px;
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
+
+            --shadow-card: 0 16px 40px -10px rgba(18, 4, 39, 0.65);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            min-height: 100%;
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-image: 
+                radial-gradient(circle at 12% 15%, rgba(102, 49, 219, 0.32), transparent 42%),
+                radial-gradient(circle at 88% 85%, rgba(169, 129, 255, 0.2), transparent 46%),
+                radial-gradient(circle at 50% 50%, rgba(52, 17, 126, 0.65), transparent 75%);
+            background-attachment: fixed;
+        }
+
+        input, select, button, textarea {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            touch-action: manipulation;
+        }
+
+        a {
+            color: var(--c-A981FF);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', 'Vazirmatn', monospace;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        /* ==================== 2. MOBILE-FIRST RESPONSIVE GRID ==================== */
+        .app-viewport {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 14px 12px 48px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            flex: 1;
+        }
+
+        @media (min-width: 768px) {
+            .main-container {
+                padding: 24px 18px 48px;
+                gap: 22px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .main-container {
+                grid-template-columns: 1.15fr 0.85fr;
+                align-items: start;
+                padding-top: 36px;
+                gap: 28px;
+            }
+        }
+
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 18px 14px;
+            box-shadow: var(--shadow-card);
+        }
+
+        @media (min-width: 576px) {
+            .glass-panel {
+                padding: 26px 22px;
+            }
+        }
+
+        /* Sidebar Info Panel */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+            background: linear-gradient(165deg, rgba(73, 26, 177, 0.45) 0%, rgba(20, 6, 45, 0.85) 100%);
+            border: 1px solid var(--border-strong);
+            position: sticky;
+            top: 18px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(102, 49, 219, 0.35);
+            border: 1px solid var(--c-A981FF);
+            color: #FFFFFF;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--c-A981FF);
+            box-shadow: 0 0 10px var(--c-7B45F0);
+        }
+
+        .info-title {
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin: 12px 0 8px;
+            line-height: 1.4;
+        }
+
+        @media (min-width: 768px) {
+            .info-title { font-size: 1.7rem; }
+        }
+
+        .info-desc {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        /* Pricing Card */
+        .price-banner {
+            background: linear-gradient(135deg, rgba(102, 49, 219, 0.45) 0%, rgba(52, 17, 126, 0.6) 100%);
+            border: 1px solid var(--c-7B45F0);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .price-number {
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: var(--c-D0BCFC);
+        }
+
+        /* Family Discount Highlight Banner */
+        .family-discount-card {
+            background: linear-gradient(135deg, rgba(123, 69, 240, 0.35) 0%, rgba(73, 26, 177, 0.5) 100%);
+            border: 1px dashed var(--c-A981FF);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .family-discount-icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 10px;
+            background: var(--c-6631DB);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .family-discount-text strong {
+            display: block;
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .family-discount-text span {
+            font-size: 0.76rem;
+            color: var(--c-D0BCFC);
+            line-height: 1.6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        @media (min-width: 500px) and (max-width: 991px) {
+            .feature-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .feature-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            background: rgba(34, 11, 80, 0.7);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .feature-icon-box {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            border-radius: 10px;
+            background: var(--primary-soft);
+            border: 1px solid var(--c-7B45F0);
+            color: var(--c-D0BCFC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .stats-footer {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--c-D0BCFC);
+        }
+
+        .stat-title {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* ==================== 3. FORMS & INPUTS ==================== */
+        .form-header {
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .form-header h2 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        @media (min-width: 576px) {
+            .form-header h2 { font-size: 1.4rem; }
+        }
+
+        .form-header p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 576px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .req-star {
+            color: #F87171;
+            margin-right: 3px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select,
+        .input-wrapper textarea {
+            width: 100%;
+            min-height: 46px;
+            padding: 10px 40px 10px 40px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            outline: none;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus,
+        .input-wrapper textarea:focus {
+            border-color: var(--c-7B45F0);
+            box-shadow: 0 0 0 3px rgba(123, 69, 240, 0.3);
+            background: rgba(34, 11, 80, 0.95);
+        }
+
+        .input-wrapper select option {
+            background-color: var(--c-34117E);
+            color: var(--text-primary);
+        }
+
+        .input-icon-right {
+            position: absolute;
+            right: 12px;
+            color: var(--c-B796FE);
+            font-size: 0.95rem;
+            pointer-events: none;
+        }
+
+        .input-arrow-left {
+            position: absolute;
+            left: 12px;
+            font-size: 0.75rem;
+            color: var(--c-B796FE);
+            pointer-events: none;
+        }
+
+        .toggle-password-btn {
+            position: absolute;
+            left: 6px;
+            width: 34px;
+            height: 34px;
+            background: transparent;
+            color: var(--c-B796FE);
+            border: none;
+            border-radius: var(--radius-xs);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .toggle-password-btn:hover {
+            color: #FFFFFF;
+            background: rgba(123, 69, 240, 0.25);
+        }
+
+        .toggle-password-btn svg {
+            width: 19px;
+            height: 19px;
+            stroke-width: 2;
+            transition: transform 0.15s ease;
+        }
+
+        .toggle-password-btn:active svg {
+            transform: scale(0.88);
+        }
+
+        .error-message {
+            display: none;
+            color: #FCA5A5;
+            font-size: 0.74rem;
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
+        .input-group.has-error input,
+        .input-group.has-error select,
+        .input-group.has-error .upload-box {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3) !important;
+        }
+
+        .input-group.has-error .error-message {
+            display: block;
+        }
+
+        .form-alert-banner {
+            display: none;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #FECACA;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .form-alert-banner.show {
+            display: block;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* Registration Type Selector (Radio Toggle) */
+        .reg-type-selector {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        @media (min-width: 576px) {
+            .reg-type-selector {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .reg-type-option {
+            background: rgba(34, 11, 80, 0.8);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .reg-type-option:hover {
+            border-color: var(--c-7B45F0);
+        }
+
+        .reg-type-option.selected {
+            background: rgba(102, 49, 219, 0.35);
+            border-color: var(--c-A981FF);
+            box-shadow: 0 0 14px rgba(123, 69, 240, 0.35);
+        }
+
+        .reg-type-option input {
+            display: none;
+        }
+
+        .reg-type-title {
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .reg-type-price {
+            font-size: 0.84rem;
+            font-weight: 900;
+            color: var(--c-D0BCFC);
+        }
+
+        .reg-type-desc {
+            font-size: 0.72rem;
+            color: var(--c-B796FE);
+            line-height: 1.5;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            background: rgba(34, 11, 80, 0.85);
+            border: 1px solid var(--c-7B45F0);
+            border-radius: var(--radius-md);
+            padding: 16px 14px;
+            margin-top: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border-subtle);
+        }
+
+        .payment-fee-tag {
+            background: rgba(123, 69, 240, 0.3);
+            border: 1px solid var(--c-A981FF);
+            color: #FFFFFF;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 900;
+        }
+
+        .bank-details-card {
+            background: rgba(18, 4, 39, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-number-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(52, 17, 126, 0.7);
+            border: 1px solid var(--c-7B45F0);
+            border-radius: var(--radius-xs);
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card-number-box:hover {
+            background: rgba(102, 49, 219, 0.3);
+            border-color: var(--c-A981FF);
+        }
+
+        .card-digits {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--c-D0BCFC);
+            letter-spacing: 1.5px;
+            direction: ltr;
+        }
+
+        /* Upload Area */
+        .upload-box {
+            border: 2px dashed var(--c-7B45F0);
+            border-radius: var(--radius-md);
+            padding: 22px 14px;
+            text-align: center;
+            background: rgba(22, 7, 51, 0.7);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .upload-box:hover, .upload-box.drag-over {
+            border-color: var(--c-A981FF);
+            background: rgba(102, 49, 219, 0.18);
+        }
+
+        .upload-box input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+
+        .receipt-preview-container {
+            display: none;
+            background: rgba(18, 4, 39, 0.95);
+            border: 1px solid var(--c-A981FF);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .receipt-preview-container.show {
+            display: flex;
+        }
+
+        .receipt-thumb {
+            width: 68px;
+            height: 68px;
+            min-width: 68px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+        }
+
+        .receipt-remove-btn {
+            background: var(--danger-soft);
+            color: #FCA5A5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-xs);
+            padding: 6px 12px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding-top: 4px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            margin-top: 2px;
+            accent-color: var(--c-6631DB);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--c-6631DB) 0%, var(--c-491AB1) 100%);
+            color: #FFFFFF;
+            font-size: 0.92rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(102, 49, 219, 0.45);
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--c-7B45F0) 0%, var(--c-6631DB) 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(123, 69, 240, 0.55);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.35);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .btn-primary.loading .spinner {
+            display: inline-block;
+        }
+
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Box */
+        .success-box {
+            display: none;
+            text-align: center;
+            padding: 28px 14px;
+        }
+
+        .success-box.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-icon-wrap {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 16px;
+            border-radius: 20px;
+            background: var(--success-soft);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+        }
+
+        .success-box h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .success-box p {
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            max-width: 460px;
+            margin: 0 auto 18px;
+            line-height: 1.8;
+        }
+
+        .btn-secondary {
+            min-height: 42px;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--c-34117E);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--c-A981FF);
+        }
+
+        /* ==================== 4. LOGIN VIEW ==================== */
+        .login-view {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: radial-gradient(circle at top center, rgba(102, 49, 219, 0.3), transparent 60%), var(--bg-main);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .login-view.show {
+            display: flex;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-xl);
+            padding: 30px 22px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .login-brand {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .login-logo-box {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 12px;
+            border-radius: 16px;
+            background: var(--primary-soft);
+            border: 1px solid var(--c-A981FF);
+            color: var(--c-D0BCFC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        /* Important Login Reminder Notice */
+        .login-reminder-notice {
+            background: rgba(102, 49, 219, 0.25);
+            border: 1px solid var(--c-7B45F0);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            color: #FFFFFF;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .alert-box {
+            display: none;
+            padding: 11px 13px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            text-align: right;
+        }
+
+        .alert-box.show {
+            display: block;
+        }
+
+        .alert-box.error {
+            background: var(--danger-soft);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #FCA5A5;
+        }
+
+        .alert-box.warning {
+            background: var(--warning-soft);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #FCD34D;
+        }
+
+        /* ==================== 5. PANELS ==================== */
+        .app-panel-view {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: var(--bg-main);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .app-panel-view.show {
+            display: flex;
+        }
+
+        .panel-top-bar {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 576px) {
+            .panel-top-bar { padding: 14px 20px; }
+        }
+
+        .btn-logout {
+            min-height: 38px;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--danger-soft);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #FCA5A5;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .panel-nav-tabs {
+            background: var(--c-34117E);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 6px 12px;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-btn {
+            min-height: 40px;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--c-D0BCFC);
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--c-6631DB);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(102, 49, 219, 0.4);
+        }
+
+        .tab-badge {
+            background: rgba(245, 158, 11, 0.28);
+            color: #FCD34D;
+            padding: 1px 7px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .panel-scroll-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 12px calc(24px + var(--safe-bottom));
+            max-width: 1080px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 576px) {
+            .panel-scroll-content { padding: 20px 18px calc(24px + var(--safe-bottom)); }
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        @media (min-width: 720px) {
+            .stats-dashboard {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .stat-card-widget {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px 12px;
+            text-align: center;
+        }
+
+        .stat-card-widget .stat-num {
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: var(--c-D0BCFC);
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .filter-pill {
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: var(--c-34117E);
+            border: 1px solid var(--border-subtle);
+            color: var(--c-D0BCFC);
+            font-size: 0.76rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .filter-pill.active {
+            background: var(--c-6631DB);
+            border-color: var(--c-A981FF);
+            color: #FFFFFF;
+        }
+
+        .request-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .request-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .request-card.pending {
+            border-color: rgba(245, 158, 11, 0.4);
+            background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-surface) 100%);
+        }
+
+        .request-receipt-box {
+            background: rgba(18, 4, 39, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .receipt-card-thumb {
+            width: 64px;
+            height: 64px;
+            min-width: 64px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+        }
+
+        .btn-approve-request {
+            min-height: 38px;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: #FFFFFF;
+            font-size: 0.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-reject-request {
+            min-height: 38px;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--danger-soft);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #FCA5A5;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-delete-student {
+            min-height: 36px;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--danger-soft);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #FCA5A5;
+            font-size: 0.76rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-delete-student:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Lightbox */
+        .receipt-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 400;
+            background: rgba(0, 0, 0, 0.94);
+            backdrop-filter: blur(12px);
+            display: none;
+            flex-direction: column;
+            padding: 14px;
+        }
+
+        .receipt-lightbox.show {
+            display: flex;
+        }
+
+        .lightbox-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--c-34117E);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+        }
+
+        .lightbox-content-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+        }
+
+        .lightbox-image-target {
+            max-width: 92%;
+            max-height: 82vh;
+            border-radius: var(--radius-sm);
+            object-fit: contain;
+        }
+
+        /* Responsive Attendance Table */
+        .attendance-scroll-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            margin-top: 8px;
+        }
+
+        .attendance-table {
+            width: 100%;
+            min-width: 620px;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+        }
+
+        .attendance-table th, .attendance-table td {
+            border: 1px solid var(--border-subtle);
+            padding: 8px 6px;
+            text-align: center;
+        }
+
+        .attendance-check-cell {
+            cursor: pointer;
+            font-weight: 800;
+            user-select: none;
+            transition: background 0.15s;
+        }
+
+        .attendance-check-cell.present {
+            background: var(--success-soft);
+            color: #6EE7B7;
+        }
+
+        .attendance-check-cell.absent {
+            background: var(--danger-soft);
+            color: #FCA5A5;
+        }
+
+        /* Achievements / Projects Section */
+        .achievement-card {
+            background: rgba(18, 4, 39, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-download-file {
+            background: linear-gradient(135deg, var(--c-6631DB) 0%, var(--c-491AB1) 100%);
+            color: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: var(--radius-xs);
+            font-size: 0.76rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-download-file:hover {
+            filter: brightness(1.15);
+            text-decoration: none;
+        }
+
+        .btn-delete-file {
+            background: var(--danger-soft);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #FCA5A5;
+            padding: 5px 10px;
+            border-radius: var(--radius-xs);
+            font-size: 0.74rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .upload-achievement-form {
+            background: rgba(34, 11, 80, 0.75);
+            border: 1px solid var(--c-7B45F0);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* ==================== 10. FLOATING CONTACT WIDGET & REGISTRATION CONTACTS ==================== */
+        .floating-contact-container {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .floating-call-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--c-7B45F0), var(--c-491AB1));
+            color: #FFFFFF;
+            padding: 12px 18px;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px -4px rgba(123, 69, 240, 0.65), 0 0 0 1px rgba(208, 188, 252, 0.35);
+            font-size: 0.88rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            user-select: none;
+        }
+
+        .floating-call-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 30px -4px rgba(123, 69, 240, 0.85), 0 0 0 2px rgba(208, 188, 252, 0.6);
+            background: linear-gradient(135deg, #8B5CF6, var(--c-6631DB));
+        }
+
+        .floating-call-btn:active {
+            transform: scale(0.96);
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            bottom: -4px;
+            left: -4px;
+            border-radius: 999px;
+            border: 2px solid var(--c-A981FF);
+            animation: pulse-ring 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.15);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .floating-btn-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: phone-bounce 3s ease infinite;
+        }
+
+        @keyframes phone-bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-3px); }
+            60% { transform: translateY(-1.5px); }
+        }
+
+        .floating-contact-popup {
+            position: absolute;
+            bottom: calc(100% + 14px);
+            left: 0;
+            width: 320px;
+            max-width: calc(100vw - 32px);
+            background: rgba(34, 11, 80, 0.96);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--c-7B45F0);
+            border-radius: var(--radius-lg);
+            padding: 18px 16px;
+            box-shadow: 0 20px 40px -10px rgba(18, 4, 39, 0.85), 0 0 0 1px rgba(208, 188, 252, 0.25);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px) scale(0.95);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .floating-contact-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .contact-popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .contact-popup-badge {
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .contact-popup-close {
+            background: transparent;
+            color: var(--c-B796FE);
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .contact-popup-close:hover {
+            color: #FFFFFF;
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .contact-popup-desc {
+            font-size: 0.74rem;
+            color: var(--c-D0BCFC);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .contact-popup-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-item-card {
+            background: rgba(52, 17, 126, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            transition: all var(--transition-fast);
+        }
+
+        .contact-item-card:hover {
+            border-color: var(--c-7B45F0);
+            background: rgba(73, 26, 177, 0.5);
+            transform: translateX(-2px);
+        }
+
+        .contact-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .contact-item-role {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .contact-item-phone {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--c-D0BCFC);
+            letter-spacing: 0.5px;
+        }
+
+        .contact-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-call-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, var(--c-7B45F0), var(--c-6631DB));
+            color: #FFFFFF !important;
+            padding: 6px 12px;
+            border-radius: var(--radius-xs);
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-decoration: none !important;
+            transition: all var(--transition-fast);
+            box-shadow: 0 4px 10px rgba(123, 69, 240, 0.35);
+        }
+
+        .btn-call-action:hover {
+            background: linear-gradient(135deg, #8B5CF6, var(--c-7B45F0));
+            transform: scale(1.04);
+            box-shadow: 0 6px 14px rgba(123, 69, 240, 0.5);
+        }
+
+        .btn-copy-phone {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--c-D0BCFC);
+            width: 30px;
+            height: 30px;
+            border-radius: var(--radius-xs);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-copy-phone:hover {
+            background: rgba(255, 255, 255, 0.16);
+            color: #FFFFFF;
+        }
+
+        .contact-popup-footer {
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-subtle);
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Registration Form Contact Card */
+        .reg-contact-card {
+            background: rgba(52, 17, 126, 0.65);
+            border: 1px solid var(--c-7B45F0);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin-top: 14px;
+            margin-bottom: 8px;
+        }
+
+        .reg-contact-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .reg-contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 520px) {
+            .reg-contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .reg-contact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(34, 11, 80, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            text-decoration: none !important;
+            transition: all var(--transition-fast);
+        }
+
+        .reg-contact-item:hover {
+            border-color: var(--c-A981FF);
+            background: rgba(73, 26, 177, 0.65);
+            transform: translateY(-2px);
+        }
+
+        .reg-contact-item-title {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .reg-contact-item-num {
+            font-size: 0.88rem;
+            font-weight: 900;
+            color: var(--c-D0BCFC);
+            direction: ltr;
+            text-align: right;
+        }
+
+        .reg-contact-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #34D399;
+            margin-top: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ==================== MOBILE RESPONSIVE ENHANCEMENTS (CENTER ALIGNED) ==================== */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 12px 10px 42px;
+                gap: 16px;
+            }
+
+            .glass-panel {
+                padding: 18px 14px;
+                border-radius: var(--radius-md);
+            }
+
+            /* 1. Form Header Centering */
+            .form-header {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .form-header h2 {
+                font-size: 1.18rem;
+                text-align: center;
+                line-height: 1.45;
+            }
+
+            .form-header p {
+                text-align: center;
+            }
+
+            /* 2. Info Panel Centering */
+            .info-panel {
+                text-align: center;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .info-panel > div:first-child {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            .brand-badge {
+                margin: 0 auto 12px auto;
+                display: inline-flex;
+                justify-content: center;
+            }
+
+            .info-title {
+                text-align: center;
+                font-size: 1.35rem;
+                margin-top: 6px;
+                margin-bottom: 8px;
+            }
+
+            .info-desc {
+                text-align: center;
+                max-width: 540px;
+                margin-left: auto;
+                margin-right: auto;
+                font-size: 0.84rem;
+                line-height: 1.75;
+            }
+
+            /* 3. Price Banner Centering */
+            .price-banner {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .price-banner > div:first-child {
+                text-align: center;
+            }
+
+            .price-number {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+
+            /* 4. Family Discount Card Centering */
+            .family-discount-card {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .family-discount-icon {
+                margin: 0 auto;
+            }
+
+            .family-discount-text {
+                text-align: center;
+            }
+
+            /* 5. Feature Grid & Cards Centering */
+            .feature-grid {
+                width: 100%;
+                gap: 10px;
+            }
+
+            .feature-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+                padding: 14px 12px;
+                gap: 8px;
+            }
+
+            .feature-icon-box {
+                margin: 0 auto;
+            }
+
+            .feature-card div {
+                text-align: center;
+            }
+
+            /* 6. Stats Footer Centering */
+            .stats-footer {
+                width: 100%;
+                text-align: center;
+                gap: 6px;
+                padding-top: 14px;
+            }
+
+            .stats-footer > div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .stat-value {
+                font-size: 1.08rem;
+                text-align: center;
+            }
+
+            .stat-title {
+                font-size: 0.7rem;
+                text-align: center;
+            }
+
+            /* 7. Registration Type Selector Centering */
+            .reg-type-option {
+                text-align: center;
+                padding: 12px 10px;
+            }
+
+            .reg-type-title {
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+                text-align: center;
+            }
+
+            .reg-type-desc {
+                text-align: center;
+                margin-top: 4px;
+            }
+
+            /* 8. Payment Header & Bank Details Centering */
+            .payment-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .payment-header > div:first-child {
+                text-align: center;
+            }
+
+            .payment-fee-tag {
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            .bank-details-card {
+                text-align: center;
+                align-items: center;
+            }
+
+            .bank-details-card > div:first-child {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                text-align: center;
+            }
+
+            .card-number-box {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 6px;
+                width: 100%;
+            }
+
+            .card-digits {
+                font-size: 0.95rem;
+                text-align: center;
+                letter-spacing: 1.2px;
+            }
+
+            /* 9. Registration Contact Card Centering */
+            .reg-contact-card {
+                text-align: center;
+            }
+
+            .reg-contact-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+                gap: 6px;
+            }
+
+            .reg-contact-header > div {
+                text-align: center;
+            }
+
+            .reg-contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reg-contact-item {
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .reg-contact-item-num {
+                text-align: center;
+                direction: ltr;
+            }
+
+            .reg-contact-badge {
+                justify-content: center;
+            }
+
+            /* 10. Receipt Upload Box Centering */
+            .upload-box {
+                text-align: center;
+                padding: 16px 12px;
+            }
+
+            /* 11. Buttons & Submit Centering */
+            .btn-primary {
+                justify-content: center;
+                text-align: center;
+            }
+
+            /* 12. Floating Contact Widget on Mobile */
+            .floating-contact-container {
+                left: 14px;
+                bottom: 14px;
+            }
+
+            .floating-call-btn {
+                padding: 10px 14px;
+                font-size: 0.82rem;
+            }
+
+            .floating-contact-popup {
+                width: 290px;
+                left: 0;
+            }
+
+            /* 13. Secretary & Student Top Bar Centering */
+            .panel-top-bar {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 12px;
+                padding: 12px 14px;
+            }
+
+            .panel-brand-box {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 6px;
+            }
+
+            .panel-tabs {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .stats-dashboard {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat-card-widget {
+                text-align: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-viewport">
+
+    <!-- ==================== VIEW 1: REGISTRATION ==================== -->
+    <main class="main-container" id="viewRegister">
+        <section class="glass-panel">
+            <div class="form-header">
+                <h2>ثبت‌نام دوره جامع هوش مصنوعی دبیرستان سخت‌کوشان</h2>
+                <p>قبلاً ثبت‌نام کرده‌اید یا منشی هستید؟ <a href="#" id="linkGoToLogin">ورود به حساب کاربری</a></p>
+            </div>
+
+            <!-- Top alert banner for validation feedback -->
+            <div class="form-alert-banner" id="formAlertBanner"></div>
+
+            <form class="register-form" id="registerForm" novalidate>
+                <!-- Registration Type Selector (Regular vs Family Discount) -->
+                <div class="input-group">
+                    <label>نوع ثبت‌نام را انتخاب کنید:</label>
+                    <div class="reg-type-selector">
+                        <label class="reg-type-option selected" id="optRegRegular">
+                            <input type="radio" name="registrationType" value="regular" checked>
+                            <div class="reg-type-title">
+                                <span>ثبت‌نام عادی</span>
+                                <span class="reg-type-price">۶۰۰,۰۰۰ تومان</span>
+                            </div>
+                            <div class="reg-type-desc">دسترسی کامل به جلسات دوره و کارگاه‌ها</div>
+                        </label>
+                        
+                        <label class="reg-type-option" id="optRegFamily">
+                            <input type="radio" name="registrationType" value="family">
+                            <div class="reg-type-title">
+                                <span>ثبت‌نام خانواده ✨</span>
+                                <span class="reg-type-price">۳۰۰,۰۰۰ تومان</span>
+                            </div>
+                            <div class="reg-type-desc">ویژه والدین یا خواهر و برادر ثبت‌نام‌کننده (نصف قیمت)</div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- First & Last Name -->
+                <div class="form-row">
+                    <div class="input-group" id="grpFirstName">
+                        <label for="firstName">نام <span class="req-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="firstName" name="firstName" placeholder="مثال: علی" required autocomplete="given-name">
+                            <span class="input-icon-right">👤</span>
+                        </div>
+                        <span class="error-message">نام را وارد نمایید.</span>
+                    </div>
+
+                    <div class="input-group" id="grpLastName">
+                        <label for="lastName">نام خانوادگی <span class="req-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="lastName" name="lastName" placeholder="مثال: محمدی" required autocomplete="family-name">
+                            <span class="input-icon-right">👤</span>
+                        </div>
+                        <span class="error-message">نام خانوادگی را وارد نمایید.</span>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="input-group" id="grpPhone">
+                    <label for="phone">
+                        <span>شماره موبایل (همان نام کاربری ورود شما) <span class="req-star">*</span></span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="phone" name="phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required autocomplete="tel" inputmode="tel">
+                        <span class="input-icon-right">📱</span>
+                    </div>
+                    <span class="error-message">شماره موبایل معتبر ۱۱ رقمی وارد نمایید.</span>
+                </div>
+
+                <!-- Age & Gender -->
+                <div class="form-row">
+                    <div class="input-group" id="grpAge">
+                        <label for="age">سن <span class="req-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="age" name="age" placeholder="مثلاً ۱۶" min="10" max="99" required inputmode="numeric">
+                            <span class="input-icon-right">🎂</span>
+                        </div>
+                        <span class="error-message">سن معتبر (بین ۱۰ تا ۹۹) وارد کنید.</span>
+                    </div>
+
+                    <div class="input-group" id="grpGender">
+                        <label for="gender">جنسیت <span class="req-star">*</span></label>
+                        <div class="input-wrapper">
+                            <select id="gender" name="gender" required>
+                                <option value="" disabled selected>انتخاب کنید</option>
+                                <option value="male">آقا</option>
+                                <option value="female">خانم</option>
+                            </select>
+                            <span class="input-arrow-left">▼</span>
+                        </div>
+                        <span class="error-message">جنسیت را مشخص کنید.</span>
+                    </div>
+                </div>
+
+                <!-- Education Level -->
+                <div class="input-group" id="grpLevel">
+                    <label for="level">مقطع تحصیلی <span class="req-star">*</span></label>
+                    <div class="input-wrapper">
+                        <select id="level" name="level" required>
+                            <option value="" disabled selected>انتخاب مقطع تحصیلی</option>
+                            <option value="دوره اول دبیرستان">دوره اول دبیرستان (متوسطه اول)</option>
+                            <option value="دوره دوم دبیرستان (پایه دهم)">دوره دوم دبیرستان (پایه دهم)</option>
+                            <option value="دوره دوم دبیرستان (پایه یازدهم)">دوره دوم دبیرستان (پایه یازدهم)</option>
+                            <option value="دوره دوم دبیرستان (پایه دوازدهم)">دوره دوم دبیرستان (پایه دوازدهم)</option>
+                            <option value="دانشجو / آزاد">دانشجو / آزاد</option>
+                        </select>
+                        <span class="input-arrow-left">▼</span>
+                    </div>
+                    <span class="error-message">مقطع تحصیلی را انتخاب کنید.</span>
+                </div>
+
+                <!-- Requested Password -->
+                <div class="input-group" id="grpPassword">
+                    <label for="password">رمز عبور دلخواه (حداقل ۶ کاراکتر) <span class="req-star">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" placeholder="حداقل ۶ کاراکتر" minlength="6" required autocomplete="new-password">
+                        <span class="input-icon-right">🔒</span>
+                        <button type="button" class="toggle-password-btn" id="btnToggleRegPassword" aria-label="نمایش رمز" title="نمایش رمز">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                    <span class="error-message">رمز عبور حداقل باید ۶ کاراکتر باشد.</span>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="payment-section">
+                    <div class="payment-header">
+                        <div>
+                            <h4 style="font-size:0.92rem; font-weight:800;">💳 هزینه دوره و بارگذاری فیش واریز</h4>
+                            <p style="font-size:0.72rem; color:var(--text-muted);">ثبت‌نام پس از واریز و تایید فیش توسط منشی نهایی می‌گردد.</p>
+                        </div>
+                        <div class="payment-fee-tag" id="displayPaymentFee">
+                            مبلغ قابل پرداخت: ۶۰۰,۰۰۰ تومان
+                        </div>
+                    </div>
+
+                    <!-- Bank details -->
+                    <div class="bank-details-card">
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
+                            <span style="color:var(--c-D0BCFC);">صاحب حساب:</span>
+                            <span style="font-weight:800; color:#FFFFFF;">محمد رسول بهمنی</span>
+                        </div>
+                        <div class="card-number-box" id="cardCopyBox" title="کلیک برای کپی شماره کارت">
+                            <span class="card-digits" id="cardDigits">6219861987276812</span>
+                            <span style="font-size:0.75rem; color:var(--c-D0BCFC);" id="cardCopyPill">📋 کپی شماره کارت</span>
+                        </div>
+                    </div>
+
+                    <!-- Registration Contact Assistance Box -->
+                    <div class="reg-contact-card">
+                        <div class="reg-contact-header">
+                            <span style="font-size:1.15rem;">📞</span>
+                            <div>
+                                <strong style="font-size:0.84rem; color:#FFFFFF; display:block;">شماره‌های تماس و راهنمای ثبت‌نام:</strong>
+                                <span style="font-size:0.72rem; color:var(--c-D0BCFC);">برای هرگونه راهنمایی، سوال یا هماهنگی ثبت‌نام و واریز می‌توانید تماس بگیرید:</span>
+                            </div>
+                        </div>
+                        <div class="reg-contact-grid">
+                            <a href="tel:09396356204" class="reg-contact-item" title="تماس با مسئول ثبت‌نام">
+                                <div class="reg-contact-item-title">بهمنی (مسئول ثبت نام )</div>
+                                <div class="reg-contact-item-num mono">09396356204</div>
+                                <span class="reg-contact-badge">📞 لمس جهت تماس مستقیم</span>
+                            </a>
+                            <a href="tel:09105815597" class="reg-contact-item" title="تماس با مدیریت">
+                                <div class="reg-contact-item-title">بهمنی (مدیریت)</div>
+                                <div class="reg-contact-item-num mono">09105815597</div>
+                                <span class="reg-contact-badge">📞 لمس جهت تماس مستقیم</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Receipt Upload -->
+                    <div class="input-group" id="grpReceipt">
+                        <label for="receiptFileInput">
+                            <span>تصویر فیش / رسید واریزی (الزامی) <span class="req-star">*</span></span>
+                            <span style="font-size:0.72rem; color:var(--c-D0BCFC);" id="lblReceiptAmountHint">عکس فیش واریز ۶۰۰,۰۰۰ تومان</span>
+                        </label>
+
+                        <div class="upload-box" id="receiptDropzone">
+                            <input type="file" id="receiptFileInput" accept="image/*" required>
+                            <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+                                <div style="font-size:1.6rem;">📤</div>
+                                <div style="font-size:0.88rem; font-weight:800;">برای انتخاب یا آپلود رسید کلیک کنید</div>
+                                <div style="font-size:0.72rem; color:var(--c-D0BCFC);">تصویر رسید را انتخاب یا اینجا رها کنید</div>
+                            </div>
+                        </div>
+
+                        <div class="receipt-preview-container" id="receiptPreviewContainer">
+                            <img src="" alt="رسید" class="receipt-thumb" id="receiptThumbImg">
+                            <div style="flex:1; min-width:0;">
+                                <div style="font-size:0.82rem; font-weight:700;" id="receiptFileName">—</div>
+                                <div style="font-size:0.72rem; color:var(--text-muted);" id="receiptFileSize">—</div>
+                                <div style="font-size:0.72rem; color:#34D399; font-weight:800;">✓ فایل رسید آماده ارسال به منشی</div>
+                            </div>
+                            <button type="button" class="receipt-remove-btn" id="btnRemoveReceipt">حذف رسید</button>
+                        </div>
+
+                        <span class="error-message" id="receiptErrorMessage">بارگذاری تصویر فیش یا رسید واریزی الزامی است.</span>
+                    </div>
+
+                    <!-- Tracking code -->
+                    <div class="input-group">
+                        <label for="trackingCode">شماره پیگیری / کد رهگیری واریز (اختیاری)</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="trackingCode" name="trackingCode" placeholder="مثلاً: ۱۲۳۴۵۶۷۸۹۰">
+                            <span class="input-icon-right">🧾</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <div class="input-group" id="grpTerms">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsCheck" name="terms" required>
+                        <label for="termsCheck">
+                            تایید می‌کنم که وجه مشخص‌شده واریز شده و فیش ارسالی متعلق به این دوره است. می‌دانم نام کاربری و رمز عبور پس از تایید منشی در سامانه فعال خواهد شد.
+                        </label>
+                    </div>
+                    <span class="error-message" id="termsErrorMessage">تایید شرایط و قوانین برای ثبت‌نام الزامی است.</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary" id="btnSubmitRegister">
+                    <span class="btn-text">ارسال اطلاعات و ثبت نهایی درخواست</span>
+                    <span class="spinner"></span>
+                </button>
+            </form>
+
+            <!-- Success Box -->
+            <div class="success-box" id="boxSuccessMessage">
+                <div class="success-icon-wrap">✓</div>
+                <h3>رسید و اطلاعات شما با موفقیت ثبت شد</h3>
+                <p>
+                    درخواست ثبت‌نام شما به همراه تصویر فیش واریزی برای منشی دبیرستان سخت‌کوشان ارسال گردید. به محض بررسی و تایید منشی، نام کاربری (شماره همراه) و رمز عبور شما فعال خواهد شد.
+                </p>
+                <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+                    <button type="button" class="btn-primary" id="btnSuccessGoToLogin" style="width:auto; min-width:160px;">ورود به حساب کاربری</button>
+                    <button type="button" class="btn-secondary" id="btnSuccessNewRegister">ثبت‌نام فرد دیگر</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sidebar Info -->
+        <aside class="glass-panel info-panel">
+            <div>
+                <div class="brand-badge">
+                    <span class="brand-dot"></span>
+                    <span>دبیرستان سخت‌کوشان | آموزش هوش مصنوعی</span>
+                </div>
+
+                <h1 class="info-title">دوره جامع هوش مصنوعی دبیرستان سخت‌کوشان</h1>
+                <p class="info-desc">
+                    آموزش عملی مهندسی پرامپت، تعامل با مدل‌های پیشرفته زبانی، خلق آثار و ابزارهای نوین هوش مصنوعی ویژه دانش‌آموزان کوش .
+                </p>
+
+                <!-- Regular Price Banner -->
+                <div class="price-banner">
+                    <div>
+                        <div style="font-size:0.8rem; color:var(--c-D0BCFC);">هزینه دوره عادی:</div>
+                        <div style="font-size:0.75rem; color:#FFFFFF;">دسترسی کامل به کارگاه‌ها</div>
+                    </div>
+                    <div>
+                        <span class="price-number">۶۰۰,۰۰۰</span>
+                        <span style="font-size:0.8rem; font-weight:700;">تومان</span>
+                    </div>
+                </div>
+
+                <!-- Special Family Discount Highlight -->
+                <div class="family-discount-card">
+                    <div class="family-discount-icon">🎁</div>
+                    <div class="family-discount-text">
+                        <strong>تخفیف ویژه خانواده (نصف قیمت)</strong>
+                        <span>هزینه ثبت‌نام والدین و یا حتی خواهر و برادر شما ثبت‌نام‌کننده عزیز، نصف قیمت (۳۰۰ هزار تومان) می‌باشد.</span>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon-box">🛡️</div>
+                        <div>
+                            <strong style="font-size:0.84rem; display:block;">تایید مستقیم منشی</strong>
+                            <span style="font-size:0.74rem; color:var(--text-muted);">بررسی فیش و فعال‌سازی فوری نام کاربری</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-box">🚀</div>
+                        <div>
+                            <strong style="font-size:0.84rem; display:block;">ثبت پروژه‌ها و دستاوردها</strong>
+                            <span style="font-size:0.74rem; color:var(--text-muted);">بارگذاری و دانلود فایل ساخته‌ها در هر جلسه</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-box">📊</div>
+                        <div>
+                            <strong style="font-size:0.84rem; display:block;">حضور و غیاب آنلاین</strong>
+                            <span style="font-size:0.74rem; color:var(--text-muted);">ثبت دقیق یادداشت جلسات و حضور کلاسی</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon-box">📜</div>
+                        <div>
+                            <strong style="font-size:0.84rem; display:block;">مدرک رسمی دوره</strong>
+                            <span style="font-size:0.74rem; color:var(--text-muted);">اعطای گواهی معتبر دبیرستان سخت‌کوشان</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-footer">
+                <div>
+                    <div class="stat-value">890</div>
+                    <div class="stat-title">فراگیر</div>
+                </div>
+                <div>
+                    <div class="stat-value">+120 ساعت</div>
+                    <div class="stat-title">تجربه آموزش</div>
+                </div>
+                <div>
+                    <div class="stat-value">100 %</div>
+                    <div class="stat-title">رضایت دوره</div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- ==================== VIEW 2: LOGIN ==================== -->
+    <div class="login-view" id="viewLogin">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="login-logo-box">🔐</div>
+                <h2>ورود به سامانه هوش مصنوعی</h2>
+                <p style="font-size:0.82rem; color:var(--c-D0BCFC); margin-top:4px;">دبیرستان سخت‌کوشان</p>
+            </div>
+
+            <!-- Prominent Phone As Username Reminder -->
+            <div class="login-reminder-notice">
+                <span>📱</span>
+                <span>شماره موبایل شما، نام کاربری شماست</span>
+            </div>
+
+            <div class="alert-box error" id="boxLoginError"></div>
+            <div class="alert-box warning" id="boxLoginPending"></div>
+
+            <form id="loginForm" novalidate>
+                <div class="input-group" style="margin-bottom: 14px;">
+                    <label for="loginUsername">نام کاربری (شماره موبایل ثبت‌شده شما)</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="loginUsername" name="username" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required autocomplete="username">
+                        <span class="input-icon-right">👤</span>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-bottom: 18px;">
+                    <label for="loginPassword">رمز عبور</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="loginPassword" name="password" placeholder="رمز عبور حساب" required autocomplete="current-password">
+                        <span class="input-icon-right">🔒</span>
+                        <button type="button" class="toggle-password-btn" id="btnToggleLoginPassword" aria-label="نمایش رمز" title="نمایش رمز">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="btnSubmitLogin">
+                    <span class="btn-text">ورود به حساب کاربری</span>
+                    <span class="spinner"></span>
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 18px;">
+                <a href="#" id="linkBackToRegister" style="font-size: 0.82rem; color: var(--c-D0BCFC);">← بازگشت به صفحه ثبت‌نام دوره</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW 3: SECRETARY PANEL ==================== -->
+    <div class="app-panel-view" id="viewSecretary">
+        <header class="panel-top-bar">
+            <div>
+                <h2 style="font-size:1.05rem; font-weight:800;">📋 پنل منشی | دبیرستان سخت‌کوشان</h2>
+                <p style="font-size:0.72rem; color:var(--c-D0BCFC);">بررسی فیش‌ها، تایید یا لغو، حضور و غیاب، یادداشت جلسات و حذف دانشجو</p>
+            </div>
+            <button type="button" class="btn-logout" id="btnSecretaryLogout">خروج از پنل</button>
+        </header>
+
+        <nav class="panel-nav-tabs">
+            <button type="button" class="tab-btn active" data-tab="requests">
+                <span>🔔</span>
+                <span>درخواست‌ها و رسیدهای واریز</span>
+                <span class="tab-badge" id="badgePendingRequests">۰</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="students">
+                <span>👥</span>
+                <span>دانش‌آموزان و حضور و غیاب</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="sessionNotes">
+                <span>📝</span>
+                <span>یادداشت روزهای کاری جلسات</span>
+            </button>
+        </nav>
+
+        <div class="panel-scroll-content">
+            <!-- TAB 1: REQUESTS -->
+            <div class="tab-pane active" id="pane-requests">
+                <div class="stats-dashboard">
+                    <div class="stat-card-widget">
+                        <div class="stat-num" id="statPendingTotal" style="color:#FBBF24;">۰</div>
+                        <div style="font-size:0.72rem; color:var(--text-muted);">در انتظار تایید فیش</div>
+                    </div>
+                    <div class="stat-card-widget">
+                        <div class="stat-num" id="statApprovedTotal" style="color:#34D399;">۰</div>
+                        <div style="font-size:0.72rem; color:var(--text-muted);">دانش‌آموزان تاییدشده</div>
+                    </div>
+                    <div class="stat-card-widget">
+                        <div class="stat-num" id="statRevenueTotal" style="color:var(--c-D0BCFC);">۰</div>
+                        <div style="font-size:0.72rem; color:var(--text-muted);">واریزی‌های تاییدشده (تومان)</div>
+                    </div>
+                    <div class="stat-card-widget">
+                        <div class="stat-num" id="statRejectedTotal" style="color:#FCA5A5;">۰</div>
+                        <div style="font-size:0.72rem; color:var(--text-muted);">رد یا لغو شده</div>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <button type="button" class="filter-pill active" data-filter="pending">در انتظار تایید منشی</button>
+                        <button type="button" class="filter-pill" data-filter="all">همه درخواست‌ها</button>
+                        <button type="button" class="filter-pill" data-filter="approved">تاییدشده‌ها</button>
+                        <button type="button" class="filter-pill" data-filter="rejected">رد شده‌ها</button>
+                    </div>
+                    <button type="button" class="btn-secondary" id="btnRefreshRequests" style="font-size:0.75rem; min-height:34px; padding:4px 10px;">🔄 بروزرسانی</button>
+                </div>
+
+                <div class="request-cards-list" id="requestsCardsContainer">
+                    <div style="text-align:center; padding:30px; color:var(--text-muted);">در حال بارگذاری درخواست‌ها...</div>
+                </div>
+            </div>
+
+            <!-- TAB 2: STUDENTS -->
+            <div class="tab-pane" id="pane-students">
+                <div style="margin-bottom:14px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <input type="text" id="inputSearchStudents" placeholder="جستجوی نام یا شماره همراه دانش‌آموز..." style="flex:1; min-height:42px; padding:10px 14px; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:8px; color:var(--text-primary); outline:none;">
+                    <button type="button" class="btn-secondary" id="btnRefreshStudents" style="font-size:0.75rem;">🔄 تازه‌سازی لیست</button>
+                </div>
+                <div class="request-cards-list" id="approvedStudentsContainer">
+                    <div style="text-align:center; padding:30px; color:var(--text-muted);">در حال بارگذاری...</div>
+                </div>
+            </div>
+
+            <!-- TAB 3: DAILY WORKING NOTES -->
+            <div class="tab-pane" id="pane-sessionNotes">
+                <div class="glass-panel" style="margin-bottom:16px;">
+                    <h3 style="font-size:1rem; font-weight:800; margin-bottom:8px; color:var(--c-D0BCFC);">📝 ثبت و مدیریت یادداشت روزهای کاری جلسات</h3>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:14px;">برای هر جلسه از دوره، می‌توانید تاریخ شمسی برگزاری و مباحث یا یادداشت کاری را ثبت نمایید تا هم برای شما و هم برای دانش‌آموزان نمایش داده شود.</p>
+                    
+                    <div id="sessionNotesEditorContainer" style="display:flex; flex-direction:column; gap:12px;">
+                        <!-- Injected by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW 4: STUDENT PANEL ==================== -->
+    <div class="app-panel-view" id="viewStudent">
+        <header class="panel-top-bar">
+            <div>
+                <h2 style="font-size:1.05rem; font-weight:800;" id="studentDashboardName">پنل کاربری فراگیر</h2>
+                <p style="font-size:0.72rem; color:var(--c-D0BCFC);" id="studentDashboardPhone">دوره جامع هوش مصنوعی دبیرستان سخت‌کوشان</p>
+            </div>
+            <button type="button" class="btn-logout" id="btnStudentLogout">خروج از حساب</button>
+        </header>
+
+        <!-- Student Nav Tabs for tidy organization -->
+        <nav class="panel-nav-tabs">
+            <button type="button" class="tab-btn active" data-student-tab="achievements">
+                <span>🚀</span>
+                <span>دستاوردها و پروژه‌های من</span>
+            </button>
+            <button type="button" class="tab-btn" data-student-tab="attendance">
+                <span>📅</span>
+                <span>حضور و غیاب و یادداشت جلسات</span>
+            </button>
+            <button type="button" class="tab-btn" data-student-tab="profile">
+                <span>📋</span>
+                <span>مشخصات دوره و رسید واریزی</span>
+            </button>
+        </nav>
+
+        <div class="panel-scroll-content" id="studentDashboardContent">
+            <!-- Injected by JavaScript -->
+        </div>
+    </div>
+
+    <!-- ==================== LIGHTBOX: RECEIPT VIEWER ==================== -->
+    <div class="receipt-lightbox" id="receiptLightbox">
+        <div class="lightbox-topbar">
+            <div style="font-size:0.9rem; font-weight:800;" id="lightboxReceiptTitle">تصویر فیش واریزی</div>
+            <div style="display:flex; gap:8px;">
+                <button type="button" class="btn-secondary" id="btnDownloadReceipt" style="min-height:32px; padding:4px 10px; font-size:0.76rem;">دانلود رسید</button>
+                <button type="button" class="btn-secondary" id="btnCloseLightbox" style="min-height:32px; padding:4px 10px; font-size:0.76rem; background:var(--danger-soft); color:#FCA5A5;">بستن ✕</button>
+            </div>
+        </div>
+        <div class="lightbox-content-body">
+            <img src="" alt="رسید" class="lightbox-image-target" id="lightboxTargetImg">
+        </div>
+    </div>
+
+    <!-- ==================== FLOATING CONTACT WIDGET ==================== -->
+    <div class="floating-contact-container" id="floatingContactContainer">
+        <!-- Floating Contact Popover Window -->
+        <div class="floating-contact-popup" id="floatingContactPopup" role="dialog" aria-modal="true" aria-labelledby="floatingContactTitle">
+            <div class="contact-popup-header">
+                <div class="contact-popup-badge" id="floatingContactTitle">
+                    <span>📞</span>
+                    <span>تماس و پشتیبانی</span>
+                </div>
+                <button type="button" class="contact-popup-close" id="btnCloseContactPopup" aria-label="بستن">✕</button>
+            </div>
+            
+            <p class="contact-popup-desc">جهت ثبت‌نام، مشاوره دوره و پاسخ به سوالات خود می‌توانید با شماره‌های زیر مستقیماً تماس حاصل فرمایید:</p>
+
+            <div class="contact-popup-list">
+                <!-- Registration Contact -->
+                <div class="contact-item-card">
+                    <div class="contact-item-info">
+                        <span class="contact-item-role">بهمنی (مسئول ثبت نام )</span>
+                        <span class="contact-item-phone mono">09396356204</span>
+                    </div>
+                    <div class="contact-item-actions">
+                        <a href="tel:09396356204" class="btn-call-action" title="برقراری تماس مستقیم">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <span>تماس</span>
+                        </a>
+                        <button type="button" class="btn-copy-phone" data-copy-phone="09396356204" title="کپی شماره">📋</button>
+                    </div>
+                </div>
+
+                <!-- Management Contact -->
+                <div class="contact-item-card">
+                    <div class="contact-item-info">
+                        <span class="contact-item-role">بهمنی (مدیریت)</span>
+                        <span class="contact-item-phone mono">09105815597</span>
+                    </div>
+                    <div class="contact-item-actions">
+                        <a href="tel:09105815597" class="btn-call-action" title="برقراری تماس مستقیم">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <span>تماس</span>
+                        </a>
+                        <button type="button" class="btn-copy-phone" data-copy-phone="09105815597" title="کپی شماره">📋</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-popup-footer">
+                <span>دوره جامع هوش مصنوعی دبیرستان سخت‌کوشان</span>
+            </div>
+        </div>
+
+        <!-- Floating Call Button -->
+        <button type="button" class="floating-call-btn" id="btnToggleFloatingContact" aria-label="تماس با ما" title="تماس با ما">
+            <span class="pulse-ring"></span>
+            <span class="floating-btn-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+            </span>
+            <span class="floating-btn-text">تماس با ما</span>
+        </button>
+    </div>
+
+</div>
+
+<!-- ==================== SCRIPT ==================== -->
+<script>
+const API_BASE = window.location.origin.startsWith('http') ? '' : 'http://127.0.0.1:8000';
+
+const SVG_ICONS = {
+    eye: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+    eyeOff: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+};
+
+const Utils = {
+    toPersian(val) {
+        const p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        return String(val ?? '').replace(/\d/g, d => p[d]);
+    },
+    formatPrice(amount) {
+        return Utils.toPersian(Number(amount || 0).toLocaleString('en-US'));
+    },
+    normalizePhone(phone) {
+        const fa = '۰۱۲۳۴۵۶۷۸۹';
+        let s = String(phone || '').replace(/[\s\-\(\)\+]/g, '');
+        for (let i = 0; i < 10; i++) s = s.replaceAll(fa[i], String(i));
+        if (s.startsWith('98')) s = '0' + s.slice(2);
+        return s;
+    },
+    escapeHTML(str) {
+        return String(str ?? '').replace(/[&<>"']/g, m => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[m]));
+    }
+};
+
+const ViewManager = {
+    views: {
+        register: document.getElementById('viewRegister'),
+        login: document.getElementById('viewLogin'),
+        secretary: document.getElementById('viewSecretary'),
+        student: document.getElementById('viewStudent')
+    },
+    hideAll() {
+        this.views.register.style.display = 'none';
+        this.views.login.classList.remove('show');
+        this.views.secretary.classList.remove('show');
+        this.views.student.classList.remove('show');
+    },
+    showRegister() {
+        this.hideAll();
+        this.views.register.style.display = 'grid';
+    },
+    showLogin() {
+        this.hideAll();
+        this.views.login.classList.add('show');
+        document.getElementById('boxLoginError').classList.remove('show');
+        document.getElementById('boxLoginPending').classList.remove('show');
+    },
+    showSecretary() {
+        this.hideAll();
+        this.views.secretary.classList.add('show');
+        SecretaryController.loadRequests();
+    },
+    showStudent(studentData) {
+        this.hideAll();
+        this.views.student.classList.add('show');
+        StudentController.currentStudent = studentData;
+        StudentController.loadDashboard();
+    }
+};
+
+const LightboxController = {
+    box: document.getElementById('receiptLightbox'),
+    img: document.getElementById('lightboxTargetImg'),
+    title: document.getElementById('lightboxReceiptTitle'),
+    btnDownload: document.getElementById('btnDownloadReceipt'),
+    btnClose: document.getElementById('btnCloseLightbox'),
+    currentUrl: '',
+
+    init() {
+        this.btnClose.onclick = () => this.close();
+        this.box.onclick = (e) => { if (e.target === this.box) this.close(); };
+        this.btnDownload.onclick = () => {
+            if (!this.currentUrl) return;
+            const a = document.createElement('a');
+            a.href = this.currentUrl;
+            a.download = 'receipt.jpg';
+            a.target = '_blank';
+            a.click();
+        };
+    },
+    open(url, title) {
+        this.currentUrl = url;
+        this.img.src = url;
+        this.title.textContent = title || 'تصویر فیش واریزی';
+        this.box.classList.add('show');
+    },
+    close() {
+        this.box.classList.remove('show');
+        this.img.src = '';
+    }
+};
+
+const RegistrationController = {
+    form: document.getElementById('registerForm'),
+    submitBtn: document.getElementById('btnSubmitRegister'),
+    dropzone: document.getElementById('receiptDropzone'),
+    fileInput: document.getElementById('receiptFileInput'),
+    previewContainer: document.getElementById('receiptPreviewContainer'),
+    thumbImg: document.getElementById('receiptThumbImg'),
+    fileNameEl: document.getElementById('receiptFileName'),
+    fileSizeEl: document.getElementById('receiptFileSize'),
+    btnRemoveReceipt: document.getElementById('btnRemoveReceipt'),
+    alertBanner: document.getElementById('formAlertBanner'),
+    successBox: document.getElementById('boxSuccessMessage'),
+    selectedFile: null,
+    currentRegType: 'regular',
+
+    init() {
+        // Toggle password
+        const btnToggle = document.getElementById('btnToggleRegPassword');
+        const pwdInput = document.getElementById('password');
+        btnToggle.onclick = () => {
+            const isPwd = pwdInput.type === 'password';
+            pwdInput.type = isPwd ? 'text' : 'password';
+            btnToggle.innerHTML = isPwd ? SVG_ICONS.eyeOff : SVG_ICONS.eye;
+            btnToggle.setAttribute('aria-label', isPwd ? 'پنهان کردن رمز' : 'نمایش رمز');
+            btnToggle.setAttribute('title', isPwd ? 'پنهان کردن رمز' : 'نمایش رمز');
+        };
+
+        // Copy Card Number
+        document.getElementById('cardCopyBox').onclick = () => {
+            navigator.clipboard.writeText('6219861987276812').then(() => {
+                const pill = document.getElementById('cardCopyPill');
+                pill.textContent = '✓ کپی شد!';
+                pill.style.color = '#34D399';
+                setTimeout(() => { pill.textContent = '📋 کپی شماره کارت'; pill.style.color = ''; }, 2500);
+            });
+        };
+
+        // Registration Type Selector
+        const optRegular = document.getElementById('optRegRegular');
+        const optFamily = document.getElementById('optRegFamily');
+        const feeDisplay = document.getElementById('displayPaymentFee');
+        const hintDisplay = document.getElementById('lblReceiptAmountHint');
+
+        const setRegType = (type) => {
+            this.currentRegType = type;
+            if (type === 'family') {
+                optRegular.classList.remove('selected');
+                optFamily.classList.add('selected');
+                optFamily.querySelector('input').checked = true;
+                feeDisplay.textContent = 'مبلغ قابل پرداخت: ۳۰۰,۰۰۰ تومان (نصف قیمت)';
+                hintDisplay.textContent = 'عکس فیش واریز ۳۰۰,۰۰۰ تومان (تخفیف خانواده)';
+            } else {
+                optFamily.classList.remove('selected');
+                optRegular.classList.add('selected');
+                optRegular.querySelector('input').checked = true;
+                feeDisplay.textContent = 'مبلغ قابل پرداخت: ۶۰۰,۰۰۰ تومان';
+                hintDisplay.textContent = 'عکس فیش واریز ۶۰۰,۰۰۰ تومان';
+            }
+        };
+
+        optRegular.onclick = () => setRegType('regular');
+        optFamily.onclick = () => setRegType('family');
+
+        this.fileInput.onchange = (e) => {
+            if (e.target.files && e.target.files[0]) {
+                this.setFile(e.target.files[0]);
+            }
+        };
+
+        this.dropzone.ondragover = (e) => { e.preventDefault(); this.dropzone.classList.add('drag-over'); };
+        this.dropzone.ondragleave = () => { this.dropzone.classList.remove('drag-over'); };
+        this.dropzone.ondrop = (e) => {
+            e.preventDefault();
+            this.dropzone.classList.remove('drag-over');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                this.setFile(e.dataTransfer.files[0]);
+            }
+        };
+
+        this.btnRemoveReceipt.onclick = (e) => {
+            e.stopPropagation();
+            this.clearFile();
+        };
+
+        this.form.querySelectorAll('input, select').forEach(el => {
+            const clear = () => {
+                const grp = el.closest('.input-group');
+                if (grp) grp.classList.remove('has-error');
+                this.alertBanner.classList.remove('show');
+            };
+            el.addEventListener('input', clear);
+            el.addEventListener('change', clear);
+        });
+
+        this.form.onsubmit = (e) => {
+            e.preventDefault();
+            this.handleSubmit();
+        };
+
+        document.getElementById('btnSuccessGoToLogin').onclick = () => ViewManager.showLogin();
+        document.getElementById('btnSuccessNewRegister').onclick = () => {
+            this.reset();
+            this.successBox.classList.remove('show');
+            this.form.style.display = 'flex';
+            document.querySelector('.form-header').style.display = 'block';
+        };
+    },
+
+    setFile(file) {
+        if (!file.type.startsWith('image/')) {
+            alert('لطفاً یک فایل تصویری (JPG, PNG) انتخاب نمایید.');
+            return;
+        }
+        this.selectedFile = file;
+        this.fileNameEl.textContent = file.name;
+        this.fileSizeEl.textContent = Math.round(file.size / 1024) + ' کیلوبایت';
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.thumbImg.src = e.target.result;
+            this.dropzone.style.display = 'none';
+            this.previewContainer.classList.add('show');
+            document.getElementById('grpReceipt').classList.remove('has-error');
+        };
+        reader.readAsDataURL(file);
+    },
+
+    clearFile() {
+        this.selectedFile = null;
+        this.fileInput.value = '';
+        this.thumbImg.src = '';
+        this.previewContainer.classList.remove('show');
+        this.dropzone.style.display = 'block';
+    },
+
+    validate() {
+        let isValid = true;
+        let firstError = null;
+
+        const check = (id, cond) => {
+            const grp = document.getElementById(id);
+            if (!grp) return;
+            if (cond) {
+                grp.classList.add('has-error');
+                isValid = false;
+                if (!firstError) firstError = grp;
+            } else {
+                grp.classList.remove('has-error');
+            }
+        };
+
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const phone = Utils.normalizePhone(document.getElementById('phone').value);
+        const age = parseInt(document.getElementById('age').value, 10);
+        const gender = document.getElementById('gender').value;
+        const level = document.getElementById('level').value;
+        const password = document.getElementById('password').value;
+        const terms = document.getElementById('termsCheck').checked;
+
+        check('grpFirstName', !firstName);
+        check('grpLastName', !lastName);
+        check('grpPhone', !/^09\d{9}$/.test(phone));
+        check('grpAge', isNaN(age) || age < 10 || age > 99);
+        check('grpGender', !gender);
+        check('grpLevel', !level);
+        check('grpPassword', !password || password.length < 6);
+        check('grpReceipt', !this.selectedFile);
+        check('grpTerms', !terms);
+
+        if (!isValid) {
+            this.alertBanner.textContent = 'لطفاً فیلدهای الزامی و مشخص‌شده با کادر قرمز را به صورت صحیح تکمیل نمایید.';
+            this.alertBanner.classList.add('show');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            this.alertBanner.classList.remove('show');
+        }
+
+        return isValid;
+    },
+
+    async handleSubmit() {
+        if (!this.validate()) return;
+
+        this.submitBtn.classList.add('loading');
+        this.submitBtn.disabled = true;
+
+        const formData = new FormData();
+        formData.append('firstName', document.getElementById('firstName').value.trim());
+        formData.append('lastName', document.getElementById('lastName').value.trim());
+        formData.append('phone', document.getElementById('phone').value.trim());
+        formData.append('age', document.getElementById('age').value);
+        formData.append('gender', document.getElementById('gender').value);
+        formData.append('level', document.getElementById('level').value);
+        formData.append('password', document.getElementById('password').value);
+        formData.append('registrationType', this.currentRegType);
+        formData.append('trackingCode', document.getElementById('trackingCode').value.trim());
+        formData.append('receipt_image', this.selectedFile);
+
+        try {
+            const res = await fetch(API_BASE + '/api/register/', { method: 'POST', body: formData });
+            const data = await res.json();
+
+            this.submitBtn.classList.remove('loading');
+            this.submitBtn.disabled = false;
+
+            if (res.ok && data.success) {
+                this.form.style.display = 'none';
+                document.querySelector('.form-header').style.display = 'none';
+                this.successBox.classList.add('show');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                this.alertBanner.textContent = data.message || 'خطا در ثبت اطلاعات در سرور.';
+                this.alertBanner.classList.add('show');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } catch (err) {
+            this.submitBtn.classList.remove('loading');
+            this.submitBtn.disabled = false;
+            this.alertBanner.textContent = 'خطا در ارتباط با سرور جنگو.';
+            this.alertBanner.classList.add('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    },
+
+    reset() {
+        this.form.reset();
+        this.clearFile();
+        this.alertBanner.classList.remove('show');
+        this.form.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
+    }
+};
+
+const LoginController = {
+    form: document.getElementById('loginForm'),
+    errorBox: document.getElementById('boxLoginError'),
+    pendingBox: document.getElementById('boxLoginPending'),
+    submitBtn: document.getElementById('btnSubmitLogin'),
+
+    init() {
+        const btnToggle = document.getElementById('btnToggleLoginPassword');
+        const pwdInput = document.getElementById('loginPassword');
+        btnToggle.onclick = () => {
+            const isPwd = pwdInput.type === 'password';
+            pwdInput.type = isPwd ? 'text' : 'password';
+            btnToggle.innerHTML = isPwd ? SVG_ICONS.eyeOff : SVG_ICONS.eye;
+            btnToggle.setAttribute('aria-label', isPwd ? 'پنهان کردن رمز' : 'نمایش رمز');
+            btnToggle.setAttribute('title', isPwd ? 'پنهان کردن رمز' : 'نمایش رمز');
+        };
+
+        this.form.onsubmit = async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            this.errorBox.classList.remove('show');
+            this.pendingBox.classList.remove('show');
+
+            if (!username || !password) {
+                this.errorBox.textContent = 'شماره موبایل و رمز عبور را وارد نمایید.';
+                this.errorBox.classList.add('show');
+                return;
+            }
+
+            this.submitBtn.classList.add('loading');
+            this.submitBtn.disabled = true;
+
+            try {
+                const res = await fetch(API_BASE + '/api/login/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                this.submitBtn.classList.remove('loading');
+                this.submitBtn.disabled = false;
+
+                if (res.ok && data.success) {
+                    sessionStorage.setItem('session_role', data.role);
+                    sessionStorage.setItem('session_user', JSON.stringify(data.user));
+
+                    if (data.role === 'secretary') {
+                        ViewManager.showSecretary();
+                    } else if (data.role === 'student') {
+                        ViewManager.showStudent(data.user);
+                    }
+                } else {
+                    if (data.code === 'PENDING') {
+                        this.pendingBox.textContent = data.message;
+                        this.pendingBox.classList.add('show');
+                    } else {
+                        this.errorBox.textContent = data.message || 'شماره موبایل یا رمز عبور اشتباه است.';
+                        this.errorBox.classList.add('show');
+                    }
+                }
+            } catch (err) {
+                this.submitBtn.classList.remove('loading');
+                this.submitBtn.disabled = false;
+                this.errorBox.textContent = 'خطا در ارتباط با سرور جنگو.';
+                this.errorBox.classList.add('show');
+            }
+        };
+    }
+};
+
+const SecretaryController = {
+    activeFilter: 'pending',
+
+    init() {
+        document.querySelectorAll('#viewSecretary .tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('#viewSecretary .tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('#viewSecretary .tab-pane').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('pane-' + btn.dataset.tab).classList.add('active');
+
+                if (btn.dataset.tab === 'students') {
+                    this.loadStudents();
+                } else if (btn.dataset.tab === 'sessionNotes') {
+                    this.loadSessionNotes();
+                } else {
+                    this.loadRequests();
+                }
+            };
+        });
+
+        document.querySelectorAll('#pane-requests .filter-pill').forEach(pill => {
+            pill.onclick = () => {
+                document.querySelectorAll('#pane-requests .filter-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                this.activeFilter = pill.dataset.filter;
+                this.loadRequests();
+            };
+        });
+
+        document.getElementById('btnRefreshRequests').onclick = () => this.loadRequests();
+        document.getElementById('btnRefreshStudents').onclick = () => this.loadStudents();
+        document.getElementById('btnSecretaryLogout').onclick = () => {
+            sessionStorage.clear();
+            ViewManager.showLogin();
+        };
+
+        document.getElementById('inputSearchStudents').oninput = (e) => {
+            this.loadStudents(e.target.value);
+        };
+    },
+
+    async loadRequests() {
+        const container = document.getElementById('requestsCardsContainer');
+        try {
+            const res = await fetch(`${API_BASE}/api/secretary/requests/?status=${this.activeFilter}`);
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--danger);">خطا در دریافت درخواست‌ها</div>';
+                return;
+            }
+
+            document.getElementById('statPendingTotal').textContent = Utils.toPersian(data.stats.pending);
+            document.getElementById('badgePendingRequests').textContent = Utils.toPersian(data.stats.pending);
+            document.getElementById('statApprovedTotal').textContent = Utils.toPersian(data.stats.approved);
+            document.getElementById('statRejectedTotal').textContent = Utils.toPersian(data.stats.rejected);
+            document.getElementById('statRevenueTotal').textContent = Utils.formatPrice(data.stats.totalRevenue);
+
+            if (!data.requests.length) {
+                container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted); background:var(--bg-surface); border-radius:12px;">درخواستی در این وضعیت وجود ندارد.</div>';
+                return;
+            }
+
+            container.innerHTML = data.requests.map(req => {
+                const isPending = req.status === 'pending';
+                const statusBadge = isPending 
+                    ? '<span style="color:#FCD34D; background:rgba(245,158,11,0.25); padding:3px 9px; border-radius:999px; font-size:0.72rem; font-weight:800;">⏳ در انتظار تایید منشی</span>'
+                    : (req.status === 'approved' 
+                        ? '<span style="color:#6EE7B7; background:rgba(16,185,129,0.25); padding:3px 9px; border-radius:999px; font-size:0.72rem; font-weight:800;">✓ تایید و فعال</span>'
+                        : '<span style="color:#FCA5A5; background:rgba(239,68,68,0.25); padding:3px 9px; border-radius:999px; font-size:0.72rem; font-weight:800;">✕ رد شده</span>');
+
+                const fullReceiptUrl = req.receiptUrl ? (req.receiptUrl.startsWith('http') ? req.receiptUrl : API_BASE + req.receiptUrl) : null;
+                const regTypeBadge = req.registrationType === 'family' 
+                    ? '<span style="color:#FFFFFF; background:var(--c-6631DB); padding:2px 8px; border-radius:6px; font-size:0.7rem; font-weight:800;">🎁 تخفیف خانواده (نصف قیمت)</span>' 
+                    : '<span style="color:var(--c-D0BCFC); background:rgba(255,255,255,0.08); padding:2px 8px; border-radius:6px; font-size:0.7rem;">ثبت‌نام عادی</span>';
+
+                const actionsHtml = isPending ? `
+                    <div style="display:flex; gap:10px; padding-top:10px; border-top:1px dashed var(--border-subtle); flex-wrap:wrap;">
+                        <button type="button" class="btn-approve-request" data-approve="${req.id}">✓ تایید واریز و فعال‌سازی حساب</button>
+                        <button type="button" class="btn-reject-request" data-reject="${req.id}">✕ لغو / رد درخواست</button>
+                    </div>
+                ` : '';
+
+                return `
+                    <div class="request-card ${req.status}">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+                            <div>
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <strong style="font-size:0.95rem;">${Utils.escapeHTML(req.firstName)} ${Utils.escapeHTML(req.lastName)}</strong>
+                                    ${regTypeBadge}
+                                </div>
+                                <div style="font-size:0.75rem; color:var(--c-D0BCFC); margin-top:2px;">
+                                    شماره موبایل: <span class="mono">${Utils.toPersian(req.phone)}</span> | سن: ${Utils.toPersian(req.age)} سال | مقطع: ${Utils.escapeHTML(req.level)}
+                                </div>
+                            </div>
+                            <div>${statusBadge}</div>
+                        </div>
+
+                        <div class="request-receipt-box">
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                ${fullReceiptUrl ? `<img src="${fullReceiptUrl}" class="receipt-card-thumb" data-zoom-url="${fullReceiptUrl}">` : '<span>فاقد تصویر</span>'}
+                                <div>
+                                    <div style="font-weight:900; color:var(--c-D0BCFC); font-size:0.88rem;">مبلغ فیش واریزی: ${Utils.formatPrice(req.feeAmount)} تومان</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">کد پیگیری: ${Utils.escapeHTML(req.trackingCode)}</div>
+                                    <div style="font-size:0.72rem; color:var(--text-muted);">تاریخ شمسی ثبت: ${Utils.escapeHTML(req.createdAt)}</div>
+                                </div>
+                            </div>
+                            ${fullReceiptUrl ? `<button type="button" class="btn-secondary" style="font-size:0.76rem; min-height:34px; padding:4px 12px;" data-zoom-url="${fullReceiptUrl}">مشاهده بزرگنمایی فیش 🔍</button>` : ''}
+                        </div>
+
+                        <div style="font-size:0.75rem; color:var(--text-muted);">
+                            رمز عبور انتخابی: <code style="color:var(--c-D0BCFC); background:rgba(123,69,240,0.25); padding:2px 8px; border-radius:4px;">${Utils.escapeHTML(req.requestedPassword)}</code>
+                        </div>
+
+                        ${actionsHtml}
+                    </div>
+                `;
+            }).join('');
+
+            container.querySelectorAll('[data-zoom-url]').forEach(el => {
+                el.onclick = () => LightboxController.open(el.dataset.zoomUrl, 'تصویر فیش واریزی');
+            });
+
+            container.querySelectorAll('[data-approve]').forEach(btn => {
+                btn.onclick = async () => {
+                    const id = btn.dataset.approve;
+                    if (!confirm('آیا از تایید این رسید واریزی و فعال‌سازی حساب دانش‌آموز اطمینان دارید؟')) return;
+                    btn.disabled = true;
+                    const aRes = await fetch(`${API_BASE}/api/secretary/requests/${id}/approve/`, { method: 'POST' });
+                    const aData = await aRes.json();
+                    if (aData.success) {
+                        alert(aData.message);
+                        SecretaryController.loadRequests();
+                    } else {
+                        alert(aData.message || 'خطا در تایید');
+                        btn.disabled = false;
+                    }
+                };
+            });
+
+            container.querySelectorAll('[data-reject]').forEach(btn => {
+                btn.onclick = async () => {
+                    const id = btn.dataset.reject;
+                    if (!confirm('آیا از لغو یا رد این درخواست اطمینان دارید؟')) return;
+                    btn.disabled = true;
+                    const rRes = await fetch(`${API_BASE}/api/secretary/requests/${id}/reject/`, { method: 'POST' });
+                    const rData = await rRes.json();
+                    if (rData.success) {
+                        alert(rData.message);
+                        SecretaryController.loadRequests();
+                    } else {
+                        alert(rData.message || 'خطا در رد');
+                        btn.disabled = false;
+                    }
+                };
+            });
+
+        } catch (e) {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--danger);">خطا در برقراری ارتباط با سرور.</div>';
+        }
+    },
+
+    async loadStudents(query = '') {
+        const container = document.getElementById('approvedStudentsContainer');
+        try {
+            const res = await fetch(`${API_BASE}/api/secretary/students/?q=${encodeURIComponent(query)}`);
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--danger);">خطا در دریافت لیست دانش‌آموزان</div>';
+                return;
+            }
+
+            if (!data.students.length) {
+                container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted); background:var(--bg-surface); border-radius:12px;">دانش‌آموز تاییدشده‌ای در سامانه وجود ندارد.</div>';
+                return;
+            }
+
+            const sessionsCount = data.sessionsCount || 12;
+
+            container.innerHTML = data.students.map(st => {
+                const headers = Array.from({ length: sessionsCount }, (_, i) => `<th>${Utils.toPersian(i + 1)}</th>`).join('');
+                const cells = Array.from({ length: sessionsCount }, (_, i) => {
+                    const idx = i + 1;
+                    const attObj = st.attendances[idx] || {};
+                    const val = attObj.status || '';
+                    const cls = val === 'present' ? 'present' : (val === 'absent' ? 'absent' : '');
+                    const mark = val === 'present' ? '✓' : (val === 'absent' ? '✗' : '');
+                    return `<td class="attendance-check-cell ${cls}" data-st-id="${st.id}" data-ses="${idx}" title="جلسه ${idx}: برای تغییر کلیک کنید">${mark}</td>`;
+                }).join('');
+
+                const fullReceiptUrl = st.receiptUrl ? (st.receiptUrl.startsWith('http') ? st.receiptUrl : API_BASE + st.receiptUrl) : null;
+                const regTypeLabel = st.registrationType === 'family' ? 'خانواده (۳۰۰ هزار)' : 'عادی (۶۰۰ هزار)';
+
+                return `
+                    <div class="request-card approved">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <div>
+                                <strong style="font-size:0.95rem;">${Utils.escapeHTML(st.firstName)} ${Utils.escapeHTML(st.lastName)}</strong>
+                                <span style="font-size:0.75rem; color:var(--c-D0BCFC); margin-right:8px;">موبایل: <span class="mono">${Utils.toPersian(st.phone)}</span> | مقطع: ${Utils.escapeHTML(st.level)} | نوع: ${regTypeLabel}</span>
+                            </div>
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <span style="color:#6EE7B7; background:rgba(16,185,129,0.25); padding:3px 9px; border-radius:999px; font-size:0.72rem; font-weight:800;">✓ فعال</span>
+                                <button type="button" class="btn-delete-student" data-del-student="${st.id}" data-name="${st.firstName} ${st.lastName}">🗑️ حذف دانشجو</button>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:0.74rem; color:var(--text-muted);">
+                            <span>تاریخ تایید شمسی: ${Utils.escapeHTML(st.approvedAt)}</span>
+                            <span>پروژه‌ها و دستاوردها: <strong style="color:var(--c-D0BCFC);">${Utils.toPersian(st.achievementsCount || 0)} فایل</strong></span>
+                            ${fullReceiptUrl ? `<button type="button" class="btn-secondary" style="font-size:0.72rem; min-height:30px; padding:2px 10px;" data-zoom-url="${fullReceiptUrl}">مشاهده فیش واریز 🖼️</button>` : ''}
+                        </div>
+
+                        <!-- Responsive attendance scroll -->
+                        <div class="attendance-scroll-wrapper">
+                            <table class="attendance-table">
+                                <thead><tr><th style="min-width:65px;">جلسه</th>${headers}</tr></thead>
+                                <tbody><tr><td style="font-weight:700;">وضعیت</td>${cells}</tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.querySelectorAll('[data-zoom-url]').forEach(el => {
+                el.onclick = () => LightboxController.open(el.dataset.zoomUrl, 'رسید واریزی دانش‌آموز');
+            });
+
+            // Delete Student Button
+            container.querySelectorAll('[data-del-student]').forEach(btn => {
+                btn.onclick = async () => {
+                    const id = btn.dataset.delStudent;
+                    const name = btn.dataset.name;
+                    if (!confirm(`آیا از حذف کامل دانش‌آموز «${name}» اطمینان دارید؟ تمامی اطلاعات، سوابق و حضور و غیاب وی پاک خواهد شد.`)) return;
+
+                    btn.disabled = true;
+                    btn.textContent = 'در حال حذف...';
+
+                    try {
+                        const dRes = await fetch(`${API_BASE}/api/secretary/students/${id}/delete/`, { method: 'POST' });
+                        const dData = await dRes.json();
+                        if (dData.success) {
+                            alert(dData.message);
+                            SecretaryController.loadStudents();
+                        } else {
+                            alert(dData.message || 'خطا در حذف دانش‌آموز');
+                            btn.disabled = false;
+                        }
+                    } catch (e) {
+                        alert('خطا در ارتباط با سرور.');
+                        btn.disabled = false;
+                    }
+                };
+            });
+
+            // Attendance toggle
+            container.querySelectorAll('.attendance-check-cell').forEach(cell => {
+                cell.onclick = async () => {
+                    const student_id = cell.dataset.stId;
+                    const session_number = cell.dataset.ses;
+                    const tRes = await fetch(`${API_BASE}/api/secretary/attendance/toggle/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ student_id, session_number, toggle_status: true })
+                    });
+                    const tData = await tRes.json();
+                    if (tData.success) {
+                        cell.classList.remove('present', 'absent');
+                        if (tData.status === 'present') {
+                            cell.classList.add('present');
+                            cell.textContent = '✓';
+                        } else if (tData.status === 'absent') {
+                            cell.classList.add('absent');
+                            cell.textContent = '✗';
+                        } else {
+                            cell.textContent = '';
+                        }
+                    }
+                };
+            });
+
+        } catch (e) {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--danger);">خطا در بارگذاری.</div>';
+        }
+    },
+
+    async loadSessionNotes() {
+        const container = document.getElementById('sessionNotesEditorContainer');
+        try {
+            const res = await fetch(`${API_BASE}/api/secretary/students/`);
+            const data = await res.json();
+            const sessionsCount = data.sessionsCount || 12;
+            const sessionNotes = data.sessionNotes || {};
+
+            container.innerHTML = Array.from({ length: sessionsCount }, (_, i) => {
+                const num = i + 1;
+                const sn = sessionNotes[num] || {};
+                return `
+                    <div style="background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <strong style="color:var(--c-D0BCFC);">جلسه ${Utils.toPersian(num)}</strong>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <label style="font-size:0.75rem; color:var(--text-muted);">تاریخ شمسی برگزاری:</label>
+                                <input type="text" id="snDate_${num}" value="${Utils.escapeHTML(sn.date_shamsi || '')}" placeholder="مثلاً: ۱۴۰۳/۰۹/۱۰" style="width:120px; min-height:34px; padding:4px 8px; background:var(--c-34117E); border:1px solid var(--border-subtle); border-radius:6px; color:var(--text-primary); font-size:0.78rem; text-align:center;">
+                            </div>
+                        </div>
+                        <div>
+                            <textarea id="snTopic_${num}" placeholder="یادداشت مبحث، تکالیف یا توضیحات این روز کاری..." style="width:100%; min-height:56px; padding:8px; background:var(--c-34117E); border:1px solid var(--border-subtle); border-radius:6px; color:var(--text-primary); font-size:0.8rem; resize:vertical;">${Utils.escapeHTML(sn.topic_or_note || '')}</textarea>
+                        </div>
+                        <div style="text-align:left;">
+                            <button type="button" class="btn-secondary" data-save-sn="${num}" style="font-size:0.76rem; min-height:34px; padding:4px 14px; background:var(--c-6631DB); color:#FFF;">💾 ذخیره یادداشت جلسه ${Utils.toPersian(num)}</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.querySelectorAll('[data-save-sn]').forEach(btn => {
+                btn.onclick = async () => {
+                    const num = btn.dataset.saveSn;
+                    const date_shamsi = document.getElementById(`snDate_${num}`).value.trim();
+                    const topic_or_note = document.getElementById(`snTopic_${num}`).value.trim();
+                    btn.disabled = true;
+                    btn.textContent = 'در حال ذخیره...';
+
+                    const sRes = await fetch(`${API_BASE}/api/secretary/session-note/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ session_number: num, date_shamsi, topic_or_note })
+                    });
+                    const sData = await sRes.json();
+                    btn.disabled = false;
+                    btn.textContent = `💾 ذخیره یادداشت جلسه ${Utils.toPersian(num)}`;
+                    if (sData.success) {
+                        alert(sData.message);
+                    } else {
+                        alert('خطا در ذخیره یادداشت.');
+                    }
+                };
+            });
+
+        } catch (e) {
+            container.innerHTML = '<div style="color:var(--danger);">خطا در بارگذاری یادداشت‌ها.</div>';
+        }
+    }
+};
+
+const StudentController = {
+    currentStudent: null,
+    activeTab: 'achievements',
+
+    init() {
+        document.querySelectorAll('#viewStudent .tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('#viewStudent .tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.activeTab = btn.dataset.studentTab;
+                this.renderTabs();
+            };
+        });
+    },
+
+    async loadDashboard() {
+        if (!this.currentStudent) return;
+        document.getElementById('studentDashboardName').textContent = `${this.currentStudent.name || (this.currentStudent.first_name + ' ' + this.currentStudent.last_name)}`;
+        document.getElementById('studentDashboardPhone').textContent = `شماره همراه: ${Utils.toPersian(this.currentStudent.phone)}`;
+
+        const container = document.getElementById('studentDashboardContent');
+        container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">در حال دریافت اطلاعات پنل...</div>';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/student/${this.currentStudent.id}/dashboard/`);
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                container.innerHTML = '<div style="color:var(--danger); text-align:center;">خطا در دریافت وضعیت حساب کاربری.</div>';
+                return;
+            }
+
+            this.dashboardData = data;
+            this.renderTabs();
+
+            document.getElementById('btnStudentLogout').onclick = () => {
+                sessionStorage.clear();
+                ViewManager.showLogin();
+            };
+
+        } catch (e) {
+            container.innerHTML = '<div style="color:var(--danger); text-align:center;">خطا در برقراری ارتباط با سرور جنگو.</div>';
+        }
+    },
+
+    renderTabs() {
+        const data = this.dashboardData;
+        if (!data) return;
+
+        const sessionsCount = data.course.sessionsCount || 12;
+        const attendances = data.attendances || {};
+        const sessionNotes = data.sessionNotes || {};
+        const achievements = data.achievements || [];
+
+        let presents = 0;
+        let absents = 0;
+
+        const sessionRows = Array.from({ length: sessionsCount }, (_, i) => {
+            const idx = i + 1;
+            const att = attendances[idx] || {};
+            const sn = sessionNotes[idx] || {};
+
+            let label = 'برگزار نشده / نامشخص';
+            let color = 'var(--text-muted)';
+            if (att.status === 'present') { label = 'حاضر ✓'; color = '#34D399'; presents++; }
+            else if (att.status === 'absent') { label = 'غایب ✗'; color = '#FCA5A5'; absents++; }
+
+            const dayNoteText = sn.topic_or_note ? `<div style="font-size:0.76rem; color:var(--c-D0BCFC); margin-top:3px;">مبحث روز کاری: ${Utils.escapeHTML(sn.topic_or_note)}</div>` : '';
+            const dayDateText = sn.date_shamsi ? `<span style="font-size:0.72rem; color:var(--text-muted); margin-right:6px;">(${Utils.escapeHTML(sn.date_shamsi)})</span>` : '';
+
+            return `
+                <tr>
+                    <td style="font-weight:700;">
+                        جلسه ${Utils.toPersian(idx)} ${dayDateText}
+                        ${dayNoteText}
+                    </td>
+                    <td style="color:${color}; font-weight:800;">${label}</td>
+                </tr>
+            `;
+        }).join('');
+
+        const container = document.getElementById('studentDashboardContent');
+
+        // Top KPIs
+        const kpiHtml = `
+            <div class="stats-dashboard" style="margin-bottom:18px;">
+                <div class="stat-card-widget">
+                    <div class="stat-num" style="color:#34D399;">${Utils.toPersian(presents)}</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted);">جلسات حاضر</div>
+                </div>
+                <div class="stat-card-widget">
+                    <div class="stat-num" style="color:#FCA5A5;">${Utils.toPersian(absents)}</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted);">جلسات غایب</div>
+                </div>
+                <div class="stat-card-widget">
+                    <div class="stat-num" style="color:var(--c-D0BCFC);">${Utils.toPersian(achievements.length)}</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted);">دستاوردها و پروژه‌ها</div>
+                </div>
+                <div class="stat-card-widget">
+                    <div class="stat-num" style="color:var(--c-B796FE); font-size:1.15rem; padding-top:4px;">${Utils.toPersian(sessionsCount)} جلسه</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted);">کل جلسات دوره</div>
+                </div>
+            </div>
+        `;
+
+        let tabContentHtml = '';
+
+        if (this.activeTab === 'achievements') {
+            const achievementsListHtml = achievements.length ? achievements.map(ach => {
+                const fullDownloadUrl = ach.file_url ? (ach.file_url.startsWith('http') ? ach.file_url : API_BASE + ach.file_url) : '#';
+                return `
+                    <div class="achievement-card">
+                        <div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <strong style="font-size:0.88rem; color:var(--c-D0BCFC);">جلسه ${Utils.toPersian(ach.session_number)}: ${Utils.escapeHTML(ach.title)}</strong>
+                                <span style="font-size:0.7rem; color:var(--text-muted); background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">${Utils.escapeHTML(ach.file_size || '')}</span>
+                            </div>
+                            <div style="font-size:0.74rem; color:var(--text-muted); margin-top:3px;">
+                                فایل: <span class="mono">${Utils.escapeHTML(ach.file_name)}</span> | تاریخ آپلود شمسی: ${Utils.escapeHTML(ach.uploaded_at)}
+                            </div>
+                            ${ach.student_notes ? `<div style="font-size:0.74rem; color:var(--text-secondary); margin-top:2px;">توضیحات: ${Utils.escapeHTML(ach.student_notes)}</div>` : ''}
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <a href="${fullDownloadUrl}" download class="btn-download-file" target="_blank">دانلود فایل 📥</a>
+                            <button type="button" class="btn-delete-file" data-del-ach="${ach.id}">حذف 🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('') : '<div style="text-align:center; padding:24px; color:var(--text-muted); background:var(--bg-surface); border-radius:10px;">تاکنون پروژه‌ای بارگذاری نکرده‌اید. می‌توانید برای هر جلسه ساخته‌های خود را در کادر زیر آپلود کنید.</div>';
+
+            const sessionOptions = Array.from({ length: sessionsCount }, (_, i) => `<option value="${i + 1}">جلسه ${Utils.toPersian(i + 1)}</option>`).join('');
+
+            tabContentHtml = `
+                <!-- Upload Box -->
+                <div class="upload-achievement-form">
+                    <h4 style="font-size:0.95rem; font-weight:800; color:var(--c-D0BCFC);">📤 بارگذاری دستاورد و ساخته‌های کلاسی</h4>
+                    <p style="font-size:0.76rem; color:var(--text-muted);">می‌توانید هر نوع فایلی (مدل‌های هوش مصنوعی، پرامپت‌ها، نوت‌بوک، ZIP، عکس، ویدیو، PDF و ...) را برای هر جلسه آپلود نمایید و بعداً آن را دانلود کنید.</p>
+                    
+                    <form id="formUploadAchievement">
+                        <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+                            <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+                                <div class="input-group">
+                                    <label style="font-size:0.75rem;">جلسه مربوطه:</label>
+                                    <div class="input-wrapper">
+                                        <select id="achSessionNumber" required style="min-height:38px; padding:6px 12px; font-size:0.82rem;">${sessionOptions}</select>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label style="font-size:0.75rem;">عنوان دستاورد / پروژه:</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="achTitle" placeholder="مثلاً: پروژه پردازش تصویر هوش مصنوعی یا خروجی تولید تصویر" required style="min-height:38px; padding:6px 12px; font-size:0.82rem;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label style="font-size:0.75rem;">انتخاب فایل دستاورد (هر فرمتی مجاز است):</label>
+                                <input type="file" id="achFile" required style="padding:8px; background:var(--bg-input); border:1px dashed var(--border-subtle); border-radius:8px; color:var(--text-primary); font-size:0.8rem;">
+                            </div>
+
+                            <div class="input-group">
+                                <label style="font-size:0.75rem;">توضیحات کوتاه (اختیاری):</label>
+                                <input type="text" id="achNotes" placeholder="توضیحاتی در مورد ساخته یا خروجی این جلسه..." style="min-height:38px; padding:6px 12px; font-size:0.82rem;">
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px; text-align:left;">
+                            <button type="submit" class="btn-primary" id="btnSubmitAchievement" style="width:auto; min-height:42px; padding:8px 20px; font-size:0.84rem;">
+                                <span class="btn-text">بارگذاری دستاورد 🚀</span>
+                                <span class="spinner"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- List of Achievements -->
+                <div class="glass-panel">
+                    <h4 style="font-size:0.95rem; font-weight:800; margin-bottom:12px; color:var(--c-D0BCFC);">📂 فایل‌ها و پروژه‌های بارگذاری‌شده شما</h4>
+                    <div id="achievementsListContainer">
+                        ${achievementsListHtml}
+                    </div>
+                </div>
+            `;
+        } else if (this.activeTab === 'attendance') {
+            tabContentHtml = `
+                <div class="glass-panel">
+                    <h3 style="font-size:0.95rem; font-weight:800; margin-bottom:12px; color:var(--c-D0BCFC);">📅 وضعیت حضور و غیاب و مباحث هر روز کاری</h3>
+                    <div class="attendance-scroll-wrapper">
+                        <table class="attendance-table" style="min-width:100%;">
+                            <thead><tr><th>جلسه آموزشی و تاریخ شمسی</th><th>وضعیت حضور ثبت‌شده</th></tr></thead>
+                            <tbody>${sessionRows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Profile & Payment Info
+            const fullReceiptUrl = data.student.receiptUrl ? (data.student.receiptUrl.startsWith('http') ? data.student.receiptUrl : API_BASE + data.student.receiptUrl) : null;
+            const regTypeStr = data.student.registrationType === 'family' ? 'خانواده (۳۰۰ هزار تومان - نصف قیمت)' : 'عادی (۶۰۰ هزار تومان)';
+
+            tabContentHtml = `
+                <div class="glass-panel">
+                    <h3 style="font-size:0.95rem; font-weight:800; margin-bottom:14px; color:var(--c-D0BCFC);">📋 مشخصات ثبت‌نام و فیش پرداختی</h3>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; font-size:0.82rem;">
+                        <div>عنوان دوره: <strong>${Utils.escapeHTML(data.course.title)}</strong></div>
+                        <div>نوع ثبت‌نام: <strong style="color:var(--c-D0BCFC);">${regTypeStr}</strong></div>
+                        <div>مبلغ پرداخت‌شده: <strong style="color:#34D399;">${Utils.formatPrice(data.student.feeAmount)} تومان</strong></div>
+                        <div>شماره همراه (نام کاربری): <strong>${Utils.toPersian(data.student.phone)}</strong></div>
+                        <div>مقطع تحصیلی: <strong>${Utils.escapeHTML(data.student.level)}</strong></div>
+                        <div>تاریخ تایید شمسی منشی: <strong>${Utils.escapeHTML(data.student.approvedAt)}</strong></div>
+                    </div>
+
+                    ${fullReceiptUrl ? `
+                        <div style="margin-top:18px; padding-top:14px; border-top:1px dashed var(--border-subtle);">
+                            <span style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:8px;">تصویر فیش واریزی تاییدشده:</span>
+                            <img src="${fullReceiptUrl}" alt="رسید" style="max-width:240px; max-height:160px; border-radius:8px; border:1px solid var(--border-subtle); cursor:pointer;" onclick="LightboxController.open('${fullReceiptUrl}', 'فیش واریز دانش‌آموز')">
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        container.innerHTML = kpiHtml + tabContentHtml;
+
+        // Bind upload achievement form
+        const formAch = document.getElementById('formUploadAchievement');
+        if (formAch) {
+            formAch.onsubmit = async (e) => {
+                e.preventDefault();
+                const session_number = document.getElementById('achSessionNumber').value;
+                const title = document.getElementById('achTitle').value.trim();
+                const student_notes = document.getElementById('achNotes').value.trim();
+                const fileInput = document.getElementById('achFile');
+                const btnSubmit = document.getElementById('btnSubmitAchievement');
+
+                if (!fileInput.files || !fileInput.files[0]) {
+                    alert('لطفاً فایلی را برای بارگذاری انتخاب نمایید.');
+                    return;
+                }
+
+                btnSubmit.classList.add('loading');
+                btnSubmit.disabled = true;
+
+                const fd = new FormData();
+                fd.append('session_number', session_number);
+                fd.append('title', title);
+                fd.append('student_notes', student_notes);
+                fd.append('file', fileInput.files[0]);
+
+                try {
+                    const uRes = await fetch(`${API_BASE}/api/student/${this.currentStudent.id}/upload-achievement/`, {
+                        method: 'POST',
+                        body: fd
+                    });
+                    const uData = await uRes.json();
+                    btnSubmit.classList.remove('loading');
+                    btnSubmit.disabled = false;
+
+                    if (uRes.ok && uData.success) {
+                        alert(uData.message);
+                        StudentController.loadDashboard();
+                    } else {
+                        alert(uData.message || 'خطا در بارگذاری فایل.');
+                    }
+                } catch (err) {
+                    btnSubmit.classList.remove('loading');
+                    btnSubmit.disabled = false;
+                    alert('خطا در برقراری ارتباط با سرور.');
+                }
+            };
+        }
+
+        // Bind delete achievement button
+        container.querySelectorAll('[data-del-ach]').forEach(btn => {
+            btn.onclick = async () => {
+                const id = btn.dataset.delAch;
+                if (!confirm('آیا از حذف این فایل دستاورد اطمینان دارید؟')) return;
+                btn.disabled = true;
+                const dRes = await fetch(`${API_BASE}/api/student/achievements/${id}/delete/`, { method: 'POST' });
+                const dData = await dRes.json();
+                if (dData.success) {
+                    StudentController.loadDashboard();
+                } else {
+                    alert('خطا در حذف فایل.');
+                    btn.disabled = false;
+                }
+            };
+        });
+    }
+};
+
+const FloatingContactController = {
+    container: document.getElementById('floatingContactContainer'),
+    popup: document.getElementById('floatingContactPopup'),
+    btnToggle: document.getElementById('btnToggleFloatingContact'),
+    btnClose: document.getElementById('btnCloseContactPopup'),
+
+    init() {
+        if (!this.btnToggle || !this.popup) return;
+
+        this.btnToggle.onclick = (e) => {
+            e.stopPropagation();
+            this.popup.classList.toggle('show');
+        };
+
+        if (this.btnClose) {
+            this.btnClose.onclick = (e) => {
+                e.stopPropagation();
+                this.popup.classList.remove('show');
+            };
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.popup.classList.remove('show');
+            }
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.popup.contains(e.target) && !this.btnToggle.contains(e.target)) {
+                this.popup.classList.remove('show');
+            }
+        });
+
+        // Quick copy phone buttons
+        document.querySelectorAll('[data-copy-phone]').forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                const phone = btn.dataset.copyPhone;
+                navigator.clipboard.writeText(phone).then(() => {
+                    const originalHtml = btn.innerHTML;
+                    btn.innerHTML = '✓';
+                    btn.style.color = '#34D399';
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.style.color = '';
+                    }, 2000);
+                });
+            };
+        });
+    }
+};
+
+// ==================== APP INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', () => {
+    LightboxController.init();
+    FloatingContactController.init();
+    RegistrationController.init();
+    LoginController.init();
+    SecretaryController.init();
+    StudentController.init();
+
+    document.getElementById('linkGoToLogin').onclick = (e) => { e.preventDefault(); ViewManager.showLogin(); };
+    document.getElementById('linkBackToRegister').onclick = (e) => { e.preventDefault(); ViewManager.showRegister(); };
+
+    const savedRole = sessionStorage.getItem('session_role');
+    const savedUser = sessionStorage.getItem('session_user');
+
+    if (savedRole === 'secretary') {
+        ViewManager.showSecretary();
+    } else if (savedRole === 'student' && savedUser) {
+        ViewManager.showStudent(JSON.parse(savedUser));
+    } else {
+        ViewManager.showRegister();
+    }
+});
+</script>
+</body>
+</html>

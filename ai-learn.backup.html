@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ai-learn | سامانه ثبت‌نام و مدیریت آموزش هوش مصنوعی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+    /* ==================== متغیرها و پایه ==================== */
+    :root {
+        --primary: #2563EB;
+        --primary-hover: #1D4ED8;
+        --primary-soft: rgba(37, 99, 235, 0.14);
+        --accent: #38BDF8;
+        --bg-main: #0B1220;
+        --bg-elevated: #111A2C;
+        --bg-card: #0F172A;
+        --bg-input: rgba(15, 23, 42, 0.85);
+        --text-primary: #F1F5F9;
+        --text-secondary: #CBD5E1;
+        --text-muted: #94A3B8;
+        --border-subtle: rgba(148, 163, 184, 0.18);
+        --border-focus: rgba(59, 130, 246, 0.65);
+        --danger: #EF4444;
+        --danger-soft: rgba(239, 68, 68, 0.14);
+        --success: #10B981;
+        --success-soft: rgba(16, 185, 129, 0.14);
+        --warning-soft: rgba(245, 158, 11, 0.14);
+        --radius-sm: 10px;
+        --radius-md: 14px;
+        --radius-lg: 20px;
+        --shadow-card: 0 18px 40px rgba(2, 6, 23, 0.55);
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
+
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+        background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.18), transparent 45%), var(--bg-main);
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.7;
+    }
+
+    a { color: inherit; }
+    button { font-family: 'Vazirmatn', sans-serif; }
+
+    /* ==================== چیدمان اصلی ثبت‌نام ==================== */
+    .main-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 22px 16px 40px;
+    }
+
+    @media (min-width: 900px) {
+        .main-container {
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: start;
+            padding-top: 48px;
+        }
+    }
+
+    .form-panel {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 22px 18px;
+        box-shadow: var(--shadow-card);
+    }
+
+    @media (min-width: 540px) {
+        .form-panel { padding: 28px 26px; }
+    }
+
+    /* ==================== پنل معرفی ==================== */
+    .info-panel {
+        background: linear-gradient(160deg, rgba(30, 58, 138, 0.22), rgba(15, 23, 42, 0.4));
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 22px 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 18px;
+    }
+
+    @media (min-width: 540px) {
+        .info-panel { padding: 28px 26px; }
+    }
+
+    .brand-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: var(--primary-soft);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #93C5FD;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+
+    .brand-dot {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: var(--accent);
+    }
+
+    .info-panel h1 {
+        font-size: 1.45rem; font-weight: 800;
+        color: var(--text-primary); margin-bottom: 10px;
+    }
+
+    .info-panel > p {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+    }
+
+    .feature-list {
+        display: grid; grid-template-columns: 1fr;
+        gap: 10px; margin-bottom: 20px;
+    }
+
+    @media (min-width: 520px) { .feature-list { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 860px) { .feature-list { grid-template-columns: 1fr; } }
+
+    .feature-item {
+        display: flex; align-items: center; gap: 12px;
+        padding: 11px 12px;
+        border-radius: var(--radius-sm);
+        background: rgba(15, 23, 42, 0.65);
+        border: 1px solid var(--border-subtle);
+    }
+
+    .feature-icon {
+        width: 36px; height: 36px; min-width: 36px;
+        border-radius: 9px;
+        background: var(--primary-soft);
+        color: #93C5FD;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1rem;
+    }
+
+    .feature-text strong { display: block; font-size: 0.82rem; font-weight: 700; }
+    .feature-text span { font-size: 0.72rem; color: var(--text-muted); }
+
+    .stats-row {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 10px; padding-top: 14px;
+        border-top: 1px solid var(--border-subtle);
+        text-align: center;
+    }
+
+    .stat-number { display: block; font-size: 1.15rem; font-weight: 800; color: #60A5FA; }
+    .stat-label { font-size: 0.7rem; color: var(--text-muted); }
+
+    /* ==================== فرم‌ها ==================== */
+    .form-header {
+        margin-bottom: 20px; padding-bottom: 14px;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .form-header h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+    .form-header p { font-size: 0.82rem; color: var(--text-muted); }
+
+    .form-header a, .inline-link {
+        color: #60A5FA; font-weight: 700; text-decoration: none;
+    }
+
+    .form-header a:hover, .inline-link:hover { text-decoration: underline; }
+
+    .register-form { display: flex; flex-direction: column; gap: 14px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 540px) { .form-row { grid-template-columns: 1fr 1fr; } }
+
+    .input-group label {
+        display: block; font-size: 0.78rem; font-weight: 600;
+        color: var(--text-secondary); margin-bottom: 6px;
+    }
+
+    .input-wrapper { position: relative; display: flex; align-items: center; }
+
+    .input-icon {
+        position: absolute; right: 13px;
+        color: var(--text-muted); font-size: 0.95rem;
+        pointer-events: none;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+        width: 100%; min-height: 44px;
+        padding: 10px 40px 10px 40px;
+        background: var(--bg-input);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.88rem;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        -webkit-appearance: none; appearance: none;
+    }
+
+    .input-wrapper input::placeholder { color: rgba(148, 163, 184, 0.55); }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+        border-color: var(--border-focus);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+    }
+
+    .input-wrapper select option { background: var(--bg-elevated); color: var(--text-primary); }
+
+    .select-arrow {
+        position: absolute; left: 13px;
+        font-size: 0.7rem; color: var(--text-muted);
+        pointer-events: none;
+    }
+
+    .toggle-password {
+        position: absolute; left: 8px;
+        width: 32px; height: 32px;
+        background: none; border: none;
+        color: var(--text-muted); cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 7px; font-size: 0.95rem;
+    }
+
+    .toggle-password:hover {
+        background: rgba(148, 163, 184, 0.12);
+        color: var(--text-primary);
+    }
+
+    .error-msg { display: block; margin-top: 5px; font-size: 0.72rem; color: #FCA5A5; }
+
+    .checkbox-group {
+        display: flex; align-items: flex-start;
+        gap: 10px; padding-top: 2px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: 18px; height: 18px; min-width: 18px;
+        margin-top: 2px; accent-color: var(--primary); cursor: pointer;
+    }
+
+    .checkbox-group label { font-size: 0.76rem; color: var(--text-muted); cursor: pointer; }
+
+    .submit-btn {
+        width: 100%; min-height: 46px;
+        padding: 12px 18px; border: none;
+        border-radius: var(--radius-sm);
+        background: var(--primary); color: #FFFFFF;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.92rem; font-weight: 700; cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px;
+        transition: background-color 0.2s, transform 0.15s;
+    }
+
+    .submit-btn:hover { background: var(--primary-hover); }
+    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    .submit-btn .spinner {
+        display: none; width: 17px; height: 17px;
+        border: 2.5px solid rgba(255, 255, 255, 0.35);
+        border-top-color: #FFFFFF;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+    }
+
+    .submit-btn.loading .spinner { display: inline-block; }
+    .submit-btn.loading .btn-label { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ==================== پیام ثبت ==================== */
+    .success-message { display: none; text-align: center; padding: 24px 12px; }
+    .success-message.show { display: block; }
+
+    .pending-badge-icon {
+        width: 64px; height: 64px;
+        margin: 0 auto 14px; border-radius: 18px;
+        background: var(--warning-soft);
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        color: #FBBF24;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.8rem;
+    }
+
+    .success-message h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; }
+
+    .success-message p {
+        font-size: 0.84rem; color: var(--text-muted);
+        max-width: 420px; margin: 0 auto 18px;
+    }
+
+    .action-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+    .btn-secondary {
+        min-height: 42px; padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-primary);
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.82rem; font-weight: 600;
+        cursor: pointer; text-decoration: none;
+        display: inline-flex; align-items: center; justify-content: center;
+    }
+
+    .btn-secondary:hover { border-color: rgba(148, 163, 184, 0.35); }
+
+    /* ==================== صفحه ورود ==================== */
+    .login-page {
+        position: fixed; inset: 0; z-index: 100;
+        background: var(--bg-main);
+        display: none; align-items: center; justify-content: center;
+        padding: 16px; overflow-y: auto;
+    }
+
+    .login-page.show { display: flex; }
+
+    .login-box {
+        width: 100%; max-width: 410px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 26px 20px;
+        box-shadow: var(--shadow-card);
+    }
+
+    .login-logo { text-align: center; margin-bottom: 20px; }
+
+    .logo-square {
+        width: 54px; height: 54px;
+        margin: 0 auto 12px; border-radius: 14px;
+        background: var(--primary-soft);
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        color: #60A5FA;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .login-logo h2 { font-size: 1.2rem; font-weight: 800; }
+    .login-logo p { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+    .alert-box {
+        display: none; padding: 11px 13px;
+        border-radius: var(--radius-sm); font-size: 0.78rem;
+        margin-bottom: 14px; text-align: center;
+    }
+
+    .alert-box.show { display: block; }
+
+    .alert-box.error {
+        background: var(--danger-soft);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        color: #FCA5A5;
+    }
+
+    .alert-box.warning {
+        background: var(--warning-soft);
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        color: #FCD34D;
+    }
+
+    .login-hint {
+        margin-top: 14px; padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px dashed var(--border-subtle);
+        font-size: 0.72rem; color: var(--text-muted);
+        text-align: center;
+    }
+
+    .login-hint code {
+        color: #7DD3FC;
+        background: rgba(14, 165, 233, 0.12);
+        padding: 1px 6px; border-radius: 4px;
+    }
+
+    .back-link {
+        display: block; text-align: center; margin-top: 14px;
+        font-size: 0.78rem; color: var(--text-muted);
+        text-decoration: none; cursor: pointer;
+    }
+
+    .back-link:hover { color: var(--text-primary); }
+
+    /* ==================== پنل‌ها ==================== */
+    .app-panel {
+        position: fixed; inset: 0; z-index: 200;
+        background: var(--bg-main);
+        display: none; flex-direction: column; overflow: hidden;
+    }
+
+    .app-panel.show { display: flex; }
+
+    .panel-header {
+        background: var(--bg-elevated);
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 12px 16px;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 10px; flex-shrink: 0;
+    }
+
+    .panel-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+    .panel-badge-icon {
+        width: 38px; height: 38px; min-width: 38px;
+        border-radius: 10px;
+        background: var(--primary-soft);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #60A5FA;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.05rem;
+    }
+
+    .panel-title h2 {
+        font-size: 0.98rem; font-weight: 800;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .panel-title span { display: block; font-size: 0.7rem; color: var(--text-muted); }
+
+    .logout-btn {
+        min-height: 36px; padding: 7px 13px;
+        border-radius: 9px;
+        background: var(--danger-soft);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        color: #FCA5A5;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.76rem; font-weight: 700;
+        cursor: pointer; white-space: nowrap;
+    }
+
+    .logout-btn:hover { background: rgba(239, 68, 68, 0.24); }
+
+    .panel-nav {
+        display: flex; gap: 6px; padding: 10px 14px;
+        background: var(--bg-elevated);
+        border-bottom: 1px solid var(--border-subtle);
+        overflow-x: auto; scrollbar-width: none; flex-shrink: 0;
+    }
+
+    .panel-nav::-webkit-scrollbar { display: none; }
+
+    .nav-item {
+        min-height: 38px; padding: 7px 14px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-muted);
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.78rem; font-weight: 700;
+        cursor: pointer;
+        display: inline-flex; align-items: center; gap: 7px;
+        white-space: nowrap; flex-shrink: 0;
+    }
+
+    .nav-item:hover { color: var(--text-primary); background: rgba(148, 163, 184, 0.08); }
+
+    .nav-item.active { background: var(--primary); color: #FFFFFF; }
+
+    .nav-counter {
+        padding: 1px 7px; border-radius: 999px;
+        font-size: 0.68rem;
+        background: rgba(245, 158, 11, 0.22);
+        color: #FCD34D;
+    }
+
+    .nav-item.active .nav-counter {
+        background: rgba(255, 255, 255, 0.22);
+        color: #FFFFFF;
+    }
+
+    .panel-body {
+        flex: 1; overflow-y: auto; padding: 14px;
+        padding-bottom: calc(20px + var(--safe-bottom));
+        max-width: 980px; width: 100%; margin: 0 auto;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .section-title {
+        font-size: 0.95rem; font-weight: 800;
+        margin: 12px 0 10px;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 8px;
+    }
+
+    .section-title:first-child { margin-top: 0; }
+
+    /* ==================== آمار ==================== */
+    .stats-grid {
+        display: grid; grid-template-columns: repeat(2, 1fr);
+        gap: 10px; margin-bottom: 16px;
+    }
+
+    @media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 14px 12px; text-align: center;
+    }
+
+    .stat-card .num { font-size: 1.35rem; font-weight: 800; color: #60A5FA; }
+    .stat-card .lbl { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ==================== اعلانات ==================== */
+    .notice-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .notice-item {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 14px;
+        display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .notice-item.unread {
+        border-color: rgba(59, 130, 246, 0.45);
+        background: rgba(37, 99, 235, 0.06);
+    }
+
+    .notice-top { display: flex; align-items: flex-start; gap: 11px; }
+
+    .notice-icon {
+        width: 36px; height: 36px; min-width: 36px;
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1rem;
+        background: var(--primary-soft);
+        color: #93C5FD;
+    }
+
+    .notice-icon.pending { background: var(--warning-soft); color: #FBBF24; }
+    .notice-icon.approved { background: var(--success-soft); color: #34D399; }
+
+    .notice-body { flex: 1; min-width: 0; }
+
+    .notice-title {
+        font-size: 0.86rem; font-weight: 700;
+        display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+    }
+
+    .status-pill {
+        font-size: 0.68rem; font-weight: 700;
+        padding: 2px 8px; border-radius: 999px;
+    }
+
+    .status-pill.pending { background: var(--warning-soft); color: #FCD34D; }
+    .status-pill.approved { background: var(--success-soft); color: #6EE7B7; }
+    .status-pill.rejected { background: var(--danger-soft); color: #FCA5A5; }
+
+    .notice-text { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; }
+    .notice-meta { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+    .notice-actions {
+        display: flex; flex-wrap: wrap; gap: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--border-subtle);
+    }
+
+    .btn-approve {
+        min-height: 36px; padding: 6px 14px;
+        border: none; border-radius: 8px;
+        background: var(--success); color: #FFFFFF;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.76rem; font-weight: 700; cursor: pointer;
+    }
+
+    .btn-approve:hover { filter: brightness(1.06); }
+
+    .btn-reject {
+        min-height: 36px; padding: 6px 12px;
+        border-radius: 8px;
+        background: var(--danger-soft);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        color: #FCA5A5;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.76rem; font-weight: 700; cursor: pointer;
+    }
+
+    .btn-small-ghost {
+        min-height: 32px; padding: 4px 10px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid var(--border-subtle);
+        color: var(--text-secondary);
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    }
+
+    /* ==================== لیست دانش‌آموزان ==================== */
+    .search-box { position: relative; margin-bottom: 12px; }
+
+    .search-box input {
+        width: 100%; min-height: 42px;
+        padding: 9px 38px 9px 12px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.84rem; outline: none;
+    }
+
+    .search-box input:focus { border-color: var(--border-focus); }
+
+    .search-icon {
+        position: absolute; right: 12px; top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted); pointer-events: none;
+    }
+
+    .students-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .student-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 13px;
+    }
+
+    .student-main { display: flex; flex-direction: column; gap: 10px; }
+
+    @media (min-width: 600px) {
+        .student-main { flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+
+    .student-info { display: flex; align-items: center; gap: 11px; min-width: 0; }
+
+    .student-avatar {
+        width: 40px; height: 40px; min-width: 40px;
+        border-radius: 10px;
+        background: var(--primary-soft);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #93C5FD;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800;
+    }
+
+    .student-name { font-size: 0.88rem; font-weight: 700; }
+
+    .student-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+    .meta-tag {
+        font-size: 0.68rem; padding: 2px 8px;
+        border-radius: 6px;
+        background: rgba(15, 23, 42, 0.75);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-subtle);
+    }
+
+    .attendance-btn {
+        min-height: 38px; padding: 7px 14px;
+        border-radius: 9px;
+        border: 1px solid rgba(59, 130, 246, 0.4);
+        background: var(--primary-soft);
+        color: #93C5FD;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.78rem; font-weight: 700;
+        cursor: pointer; width: 100%;
+    }
+
+    @media (min-width: 600px) { .attendance-btn { width: auto; } }
+
+    .attendance-btn.active { background: var(--primary); color: #FFFFFF; border-color: var(--primary); }
+
+    .student-extra {
+        display: none; margin-top: 12px; padding-top: 12px;
+        border-top: 1px dashed var(--border-subtle);
+        grid-template-columns: repeat(2, 1fr); gap: 8px;
+    }
+
+    @media (min-width: 600px) { .student-extra { grid-template-columns: repeat(4, 1fr); } }
+
+    .student-extra.show { display: grid; }
+
+    .extra-item span { display: block; font-size: 0.68rem; color: var(--text-muted); }
+    .extra-item strong { font-size: 0.78rem; }
+
+    .attendance-table-wrapper { display: none; margin-top: 12px; overflow-x: auto; }
+    .attendance-table-wrapper.show { display: block; }
+
+    .attendance-table {
+        width: 100%; min-width: 520px;
+        border-collapse: collapse; font-size: 0.74rem;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        border: 1px solid var(--border-subtle);
+        padding: 7px 5px; text-align: center;
+    }
+
+    .attendance-table th { background: rgba(15, 23, 42, 0.85); color: var(--text-secondary); }
+
+    .attendance-cell { cursor: pointer; font-weight: 700; user-select: none; }
+
+    .attendance-cell.present { background: var(--success-soft); color: #6EE7B7; }
+    .attendance-cell.absent { background: var(--danger-soft); color: #FCA5A5; }
+
+    /* ==================== تنظیمات ==================== */
+    .settings-group {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        overflow: hidden; margin-bottom: 12px;
+    }
+
+    .settings-group-title {
+        padding: 10px 14px;
+        background: rgba(15, 23, 42, 0.65);
+        border-bottom: 1px solid var(--border-subtle);
+        font-size: 0.8rem; font-weight: 700; color: #93C5FD;
+    }
+
+    .setting-row {
+        padding: 12px 14px;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .setting-row:last-child { border-bottom: none; }
+
+    .setting-name { font-size: 0.82rem; font-weight: 700; }
+    .setting-desc { font-size: 0.7rem; color: var(--text-muted); }
+
+    .toggle-switch { position: relative; width: 44px; height: 24px; min-width: 44px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+    .toggle-slider {
+        position: absolute; inset: 0;
+        background: rgba(148, 163, 184, 0.25);
+        border-radius: 999px; cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .toggle-slider::before {
+        content: ''; position: absolute;
+        width: 18px; height: 18px;
+        right: 3px; top: 3px;
+        background: #FFFFFF; border-radius: 50%;
+        transition: transform 0.2s;
+    }
+
+    .toggle-switch input:checked + .toggle-slider { background: var(--primary); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(-20px); }
+
+    /* ==================== مودال ==================== */
+    .modal-overlay {
+        position: fixed; inset: 0; z-index: 300;
+        background: rgba(2, 6, 23, 0.75);
+        display: none; align-items: center; justify-content: center;
+        padding: 16px;
+    }
+
+    .modal-overlay.show { display: flex; }
+
+    .modal-box {
+        width: 100%; max-width: 360px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 22px 18px; text-align: center;
+    }
+
+    .modal-box h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+    .modal-box p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 18px; }
+
+    .modal-actions { display: flex; gap: 10px; }
+
+    .modal-actions button {
+        flex: 1; min-height: 40px;
+        border-radius: 9px; border: none;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 0.82rem; font-weight: 700; cursor: pointer;
+    }
+
+    .modal-cancel {
+        background: var(--bg-card);
+        color: var(--text-primary);
+        border: 1px solid var(--border-subtle) !important;
+    }
+
+    .modal-confirm { background: var(--danger); color: #FFFFFF; }
+</style>
+</head>
+<body>
+
+<!-- ==================== صفحه ثبت‌نام ==================== -->
+<div class="main-container" id="registerContainer">
+    <div class="form-panel">
+        <div class="form-header">
+            <h2>ایجاد حساب کاربری دانش‌آموز</h2>
+            <p>حساب فعال دارید یا منشی هستید؟ <a href="#" id="goToLogin">وارد حساب شوید</a></p>
+        </div>
+
+        <form class="register-form" id="registerForm" novalidate>
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="firstName">نام</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="firstName" name="firstName" placeholder="نام" required autocomplete="given-name">
+                        <span class="input-icon">👤</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="lastName">نام خانوادگی</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="lastName" name="lastName" placeholder="نام خانوادگی" required autocomplete="family-name">
+                        <span class="input-icon">👤</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="phone">شماره موبایل (نام کاربری پس از تایید منشی)</label>
+                <div class="input-wrapper">
+                    <input type="tel" id="phone" name="phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required autocomplete="tel" inputmode="tel">
+                    <span class="input-icon">📱</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="age">سن</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="age" name="age" placeholder="مثلاً ۱۸" min="10" max="99" required inputmode="numeric">
+                        <span class="input-icon">🎂</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="gender">جنسیت</label>
+                    <div class="input-wrapper">
+                        <select id="gender" name="gender" required>
+                            <option value="" disabled selected>انتخاب کنید</option>
+                            <option value="male">آقا</option>
+                            <option value="female">خانم</option>
+                        </select>
+                        <span class="select-arrow">▼</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="level">مقطع تحصیلی</label>
+                <div class="input-wrapper">
+                    <select id="level" name="level" required>
+                        <option value="" disabled selected>انتخاب کنید</option>
+                        <option value="ابتدایی">ابتدایی</option>
+                        <option value="متوسطه اول">متوسطه اول</option>
+                        <option value="متوسطه دوم">متوسطه دوم</option>
+                        <option value="کارشناسی">کارشناسی</option>
+                        <option value="کارشناسی ارشد">کارشناسی ارشد</option>
+                        <option value="دکتری">دکتری</option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">رمز عبور درخواستی</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="حداقل ۶ کاراکتر" minlength="6" required autocomplete="new-password">
+                    <span class="input-icon">🔒</span>
+                    <button type="button" class="toggle-password" id="toggleRegPassword" aria-label="نمایش رمز عبور">👁️</button>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">
+                    تایید می‌کنم اطلاعات واردشده صحیح است و نام کاربری و رمز عبور پس از تایید منشی در سامانه ثبت نهایی می‌شود.
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="btn-label">ارسال درخواست ثبت‌نام</span>
+                <span class="spinner"></span>
+            </button>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            <div class="pending-badge-icon">⏳</div>
+            <h3>درخواست شما برای منشی ارسال شد</h3>
+            <p>
+                اعلان ثبت‌نام در پنل منشی ثبت گردید. نام کاربری و رمز عبور شما پس از تایید نهایی توسط منشی در سیستم فعال می‌شود.
+            </p>
+            <div class="action-row">
+                <button type="button" class="submit-btn" id="successLoginBtn" style="width:auto; min-width:150px;">ورود به سامانه</button>
+                <button type="button" class="btn-secondary" id="newRegisterBtn">ثبت درخواست جدید</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-panel">
+        <div>
+            <div class="brand-badge">
+                <span class="brand-dot"></span>
+                <span>سامانه رسمی آموزش هوش مصنوعی (ai-learn)</span>
+            </div>
+            <h1>مسیر نظام‌مند یادگیری هوش مصنوعی</h1>
+            <p>
+                ثبت‌نام دانش‌آموزان تحت نظارت واحد آموزش انجام می‌شود؛ پس از بررسی و تایید منشی، حساب کاربری شما فعال و حضور و غیاب جلسات ثبت می‌گردد.
+            </p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-text">
+                        <strong>تایید رسمی حساب کاربری</strong>
+                        <span>فعال‌سازی نام کاربری و رمز پس از تایید منشی</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-text">
+                        <strong>ثبت دقیق حضور و غیاب</strong>
+                        <span>پیگیری وضعیت جلسات آموزشی هر دانش‌آموز</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-text">
+                        <strong>طراحی بهینه برای موبایل</strong>
+                        <span>دسترسی سریع و روان در گوشی و دسکتاپ</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎓</div>
+                    <div class="feature-text">
+                        <strong>گزارش‌گیری و پشتیبان‌گیری</strong>
+                        <span>مدیریت آمار فراگیران و خروجی اطلاعات</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div>
+                <span class="stat-number">+۵,۰۰۰</span>
+                <span class="stat-label">فراگیر</span>
+            </div>
+            <div>
+                <span class="stat-number">۱۲۰ ساعت</span>
+                <span class="stat-label">محتوای آموزشی</span>
+            </div>
+            <div>
+                <span class="stat-number">۹۸٪</span>
+                <span class="stat-label">رضایت دوره</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== صفحه ورود ==================== -->
+<div class="login-page" id="loginPage">
+    <div class="login-box">
+        <div class="login-logo">
+            <div class="logo-square">🔐</div>
+            <h2>ورود به سامانه ai-learn</h2>
+            <p>منشی یا دانش‌آموز تاییدشده اطلاعات خود را وارد کند</p>
+        </div>
+
+        <div class="alert-box error" id="loginError"></div>
+        <div class="alert-box warning" id="loginPendingAlert"></div>
+
+        <form id="loginForm" novalidate>
+            <div class="input-group" style="margin-bottom: 13px;">
+                <label for="loginUsername">نام کاربری (شماره موبایل برای دانش‌آموز)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="loginUsername" name="username" placeholder="مثلاً rasool یا ۰۹۱۲..." required autocomplete="username">
+                    <span class="input-icon">👤</span>
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 18px;">
+                <label for="loginPassword">رمز عبور</label>
+                <div class="input-wrapper">
+                    <input type="password" id="loginPassword" name="password" placeholder="رمز عبور" required autocomplete="current-password">
+                    <span class="input-icon">🔒</span>
+                    <button type="button" class="toggle-password" id="toggleLoginPassword" aria-label="نمایش رمز عبور">👁️</button>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="loginSubmitBtn">
+                <span class="btn-label">ورود به پنل</span>
+                <span class="spinner"></span>
+            </button>
+        </form>
+
+        <div class="login-hint">
+            حساب منشی: <code>rasool</code> / <code>rasool123</code><br>
+            حساب دانش‌آموز پس از تایید منشی با شماره موبایل و رمز عبور فعال می‌شود.
+        </div>
+
+        <a href="#" class="back-link" id="backToRegister">← بازگشت به صفحه ثبت‌نام</a>
+    </div>
+</div>
+
+<!-- ==================== پنل منشی ==================== -->
+<div class="app-panel" id="secretaryPanel">
+    <div class="panel-header">
+        <div class="panel-title">
+            <div class="panel-badge-icon">📋</div>
+            <div>
+                <h2>پنل منشی آموزشگاه</h2>
+                <span>مدیریت تایید ثبت‌نام، اعلانات و حضور و غیاب</span>
+            </div>
+        </div>
+        <button type="button" class="logout-btn" id="secretaryLogoutBtn">خروج</button>
+    </div>
+
+    <div class="panel-nav">
+        <button type="button" class="nav-item active" data-tab="reports">
+            <span>🔔</span>
+            <span>گزارشات و اعلانات</span>
+            <span class="nav-counter" id="pendingBadgeCount">۰</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="students">
+            <span>👥</span>
+            <span>دانش‌آموزان تاییدشده</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="settings">
+            <span>⚙️</span>
+            <span>تنظیمات</span>
+        </button>
+    </div>
+
+    <div class="panel-body">
+        <div class="tab-content active" id="tab-reports">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="num" id="statApprovedTotal">۰</div>
+                    <div class="lbl">تاییدشده فعال</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num" id="statPendingTotal" style="color:#FBBF24;">۰</div>
+                    <div class="lbl">در انتظار تایید</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num" id="statMaleTotal">۰</div>
+                    <div class="lbl">آقایان فعال</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num" id="statFemaleTotal">۰</div>
+                    <div class="lbl">خانم‌های فعال</div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <span>🔔 مرکز اعلانات و درخواست‌های ثبت‌نام</span>
+                <button type="button" class="btn-small-ghost" id="markAllReadBtn">علامت‌گذاری همه به‌عنوان خوانده‌شده</button>
+            </div>
+
+            <div class="notice-list" id="secretaryNoticesList" aria-live="polite"></div>
+        </div>
+
+        <div class="tab-content" id="tab-students">
+            <div class="section-title">
+                <span>👥 لیست دانش‌آموزان تاییدشده</span>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="studentSearch" placeholder="جستجو بر اساس نام، نام خانوادگی یا شماره موبایل...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="students-list" id="studentsList"></div>
+        </div>
+
+        <div class="tab-content" id="tab-settings">
+            <div class="section-title">
+                <span>⚙️ تنظیمات سامانه</span>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-group-title">اعلانات و مدیریت</div>
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-name">اعلان فوری ثبت‌نام جدید</div>
+                        <div class="setting-desc">نمایش هشدار و ثبت اعلان به محض ساخت حساب توسط دانش‌آموز</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="settingAutoNotify" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-name">تعداد جلسات دوره</div>
+                        <div class="setting-desc">تعداد ستون‌های حضور و غیاب (۱ تا ۳۰ جلسه)</div>
+                    </div>
+                    <input type="number" id="settingSessions" min="1" max="30" value="12"
+                           style="width:72px; min-height:36px; padding:6px 8px; border-radius:8px; background:var(--bg-input); border:1px solid var(--border-subtle); color:var(--text-primary); font-family:'Vazirmatn',sans-serif; text-align:center;">
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-group-title">داده‌ها و پشتیبان‌گیری</div>
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-name">دانلود نسخه پشتیبان (JSON)</div>
+                        <div class="setting-desc">شامل دانش‌آموزان تاییدشده، درخواست‌ها، اعلانات و حضور و غیاب</div>
+                    </div>
+                    <button type="button" class="btn-secondary" id="exportBtn">دانلود فایل</button>
+                </div>
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-name">بازنشانی اطلاعات سیستم</div>
+                        <div class="setting-desc">پاک‌سازی داده‌های ذخیره‌شده و بازگشت به حالت اولیه</div>
+                    </div>
+                    <button type="button" class="btn-reject" id="resetBtn">بازنشانی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== پنل دانش‌آموز ==================== -->
+<div class="app-panel" id="studentPanel">
+    <div class="panel-header">
+        <div class="panel-title">
+            <div class="panel-badge-icon">🎓</div>
+            <div>
+                <h2 id="studentPanelTitle">پنل دانش‌آموز</h2>
+                <span id="studentPanelSub">حساب تاییدشده</span>
+            </div>
+        </div>
+        <button type="button" class="logout-btn" id="studentLogoutBtn">خروج</button>
+    </div>
+
+    <div class="panel-body" id="studentPanelBody"></div>
+</div>
+
+<!-- ==================== مودال تایید ==================== -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+        <h3 id="modalTitle">تایید عملیات</h3>
+        <p id="modalMessage">آیا از انجام این کار اطمینان دارید؟</p>
+        <div class="modal-actions">
+            <button type="button" class="modal-cancel" id="modalCancel">انصراف</button>
+            <button type="button" class="modal-confirm" id="modalConfirm">تایید</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// =====================================================
+// کلیدهای ذخیره‌سازی
+// =====================================================
+const STORAGE_KEYS = {
+    STUDENTS: 'ailearn_v2_students',
+    REQUESTS: 'ailearn_v2_requests',
+    NOTIFICATIONS: 'ailearn_v2_notifications',
+    ATTENDANCE: 'ailearn_v2_attendance',
+    SETTINGS: 'ailearn_v2_settings',
+    SESSION: 'ailearn_v2_session'
+};
+
+// =====================================================
+// ابزارهای کمکی
+// =====================================================
+function nowFormatted() {
+    const d = new Date();
+    return d.toLocaleDateString('fa-IR') + ' - ' + d.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function toPersianNum(num) {
+    const digits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(num ?? '').replace(/\d/g, d => digits[d]);
+}
+
+function toEnglishDigits(str) {
+    const fa = '۰۱۲۳۴۵۶۷۸۹';
+    const ar = '٠١٢٣٤٥٦٧٨٩';
+    return String(str || '').replace(/[۰-۹٠-٩]/g, ch => {
+        let idx = fa.indexOf(ch);
+        if (idx === -1) idx = ar.indexOf(ch);
+        return idx > -1 ? String(idx) : ch;
+    });
+}
+
+function normalizePhone(phone) {
+    const cleaned = toEnglishDigits(phone).replace(/[\s\-\(\)]/g, '');
+    if (cleaned.startsWith('+98')) return '0' + cleaned.slice(3);
+    return cleaned;
+}
+
+function formatPhone(phone) {
+    const c = normalizePhone(phone);
+    if (c.length === 11) {
+        return toPersianNum(c.slice(0,4)) + ' ' + toPersianNum(c.slice(4,7)) + ' ' + toPersianNum(c.slice(7));
+    }
+    return toPersianNum(phone || '—');
+}
+
+function escapeHTML(str) {
+    return String(str ?? '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[m]));
+}
+
+// localStorage امن
+function readJSON(key, fallback) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+        console.warn('readJSON error for', key, e);
+        return fallback;
+    }
+}
+
+function writeJSON(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+        console.warn('writeJSON error for', key, e);
+    }
+}
+
+// =====================================================
+// داده‌های اولیه
+// =====================================================
+const initialApprovedStudents = [
+    { id: 101, firstName: 'علی', lastName: 'محمدی', gender: 'male', age: 17, level: 'متوسطه دوم', phone: '09121234567', passwordHashOrPlain: '123456', approvedAt: '1405/08/20' },
+    { id: 102, firstName: 'زهرا', lastName: 'رضایی', gender: 'female', age: 18, level: 'متوسطه دوم', phone: '09122345678', passwordHashOrPlain: '123456', approvedAt: '1405/08/21' },
+    { id: 103, firstName: 'محمد', lastName: 'حسینی', gender: 'male', age: 21, level: 'کارشناسی', phone: '09123456789', passwordHashOrPlain: '123456', approvedAt: '1405/08/22' }
+];
+
+const initialNotifications = [
+    {
+        id: 'n-init-1',
+        type: 'info',
+        title: 'سامانه ثبت‌نام و تایید دانش‌آموز فعال شد',
+        text: 'هرگاه دانش‌آموزی فرم ثبت‌نام را ارسال کند، اعلان آن اینجا ثبت می‌شود و با تایید شما نام کاربری و رمز عبور او در سیستم فعال خواهد شد.',
+        createdAt: nowFormatted(),
+        read: false,
+        requestId: null
+    }
+];
+
+function ensureSeedData() {
+    if (!localStorage.getItem(STORAGE_KEYS.STUDENTS)) {
+        writeJSON(STORAGE_KEYS.STUDENTS, initialApprovedStudents);
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.REQUESTS)) {
+        writeJSON(STORAGE_KEYS.REQUESTS, []);
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS)) {
+        writeJSON(STORAGE_KEYS.NOTIFICATIONS, initialNotifications);
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.ATTENDANCE)) {
+        writeJSON(STORAGE_KEYS.ATTENDANCE, {});
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.SETTINGS)) {
+        writeJSON(STORAGE_KEYS.SETTINGS, { autoNotify: true, sessions: 12 });
+    }
+}
+
+ensureSeedData();
+
+// =====================================================
+// دسترسی به داده‌ها
+// =====================================================
+const getApprovedStudents = () => readJSON(STORAGE_KEYS.STUDENTS, []);
+const setApprovedStudents = (list) => writeJSON(STORAGE_KEYS.STUDENTS, list);
+
+const getRequests = () => readJSON(STORAGE_KEYS.REQUESTS, []);
+const setRequests = (list) => writeJSON(STORAGE_KEYS.REQUESTS, list);
+
+const getNotifications = () => readJSON(STORAGE_KEYS.NOTIFICATIONS, []);
+const setNotifications = (list) => writeJSON(STORAGE_KEYS.NOTIFICATIONS, list);
+
+const getAttendance = () => readJSON(STORAGE_KEYS.ATTENDANCE, {});
+const setAttendance = (obj) => writeJSON(STORAGE_KEYS.ATTENDANCE, obj);
+
+const getSettings = () => readJSON(STORAGE_KEYS.SETTINGS, { autoNotify: true, sessions: 12 });
+const setSettings = (obj) => writeJSON(STORAGE_KEYS.SETTINGS, obj);
+
+// =====================================================
+// نمایش/مخفی کردن رمز
+// =====================================================
+function bindPasswordToggle(btnId, inputId) {
+    const btn = document.getElementById(btnId);
+    const inp = document.getElementById(inputId);
+    if (!btn || !inp) return;
+    btn.addEventListener('click', () => {
+        const isPwd = inp.type === 'password';
+        inp.type = isPwd ? 'text' : 'password';
+        btn.textContent = isPwd ? '🙈' : '👁️';
+    });
+}
+
+bindPasswordToggle('toggleRegPassword', 'password');
+bindPasswordToggle('toggleLoginPassword', 'loginPassword');
+
+// =====================================================
+// ارجاع به عناصر اصلی
+// =====================================================
+const registerContainer = document.getElementById('registerContainer');
+const loginPage = document.getElementById('loginPage');
+const loginForm = document.getElementById('loginForm');
+const loginError = document.getElementById('loginError');
+const loginPendingAlert = document.getElementById('loginPendingAlert');
+const secretaryPanel = document.getElementById('secretaryPanel');
+const studentPanel = document.getElementById('studentPanel');
+
+function hideAllPanels() {
+    secretaryPanel.classList.remove('show');
+    studentPanel.classList.remove('show');
+}
+
+function openLoginPage() {
+    registerContainer.style.display = 'none';
+    hideAllPanels();
+    loginError.classList.remove('show');
+    loginPendingAlert.classList.remove('show');
+    loginPage.classList.add('show');
+}
+
+function openRegisterPage() {
+    loginPage.classList.remove('show');
+    hideAllPanels();
+    registerContainer.style.display = 'grid';
+    const form = document.getElementById('registerForm');
+    const header = document.querySelector('.form-header');
+    const successBox = document.getElementById('successMessage');
+    form.style.display = 'flex';
+    header.style.display = '';
+    successBox.classList.remove('show');
+}
+
+document.getElementById('goToLogin').addEventListener('click', (e) => { e.preventDefault(); openLoginPage(); });
+document.getElementById('successLoginBtn').addEventListener('click', (e) => { e.preventDefault(); openLoginPage(); });
+document.getElementById('backToRegister').addEventListener('click', (e) => { e.preventDefault(); openRegisterPage(); });
+
+// =====================================================
+// ثبت‌نام
+// =====================================================
+(function initRegistration() {
+    const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successBox = document.getElementById('successMessage');
+    const formHeader = document.querySelector('.form-header');
+    const newRegBtn = document.getElementById('newRegisterBtn');
+
+    function showFieldError(input, msg) {
+        clearFieldError(input);
+        input.style.borderColor = 'var(--danger)';
+        const el = document.createElement('span');
+        el.className = 'error-msg';
+        el.textContent = msg;
+        input.closest('.input-group').appendChild(el);
+    }
+
+    function clearFieldError(input) {
+        input.style.borderColor = '';
+        const grp = input.closest('.input-group');
+        if (grp) {
+            const prev = grp.querySelector('.error-msg');
+            if (prev) prev.remove();
+        }
+    }
+
+    form.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', () => clearFieldError(el));
+        el.addEventListener('change', () => clearFieldError(el));
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const firstName = document.getElementById('firstName');
+        const lastName = document.getElementById('lastName');
+        const phoneInput = document.getElementById('phone');
+        const age = document.getElementById('age');
+        const gender = document.getElementById('gender');
+        const level = document.getElementById('level');
+        const password = document.getElementById('password');
+        const terms = document.getElementById('terms');
+
+        let valid = true;
+
+        if (!firstName.value.trim()) { showFieldError(firstName, 'نام را وارد کنید'); valid = false; }
+        if (!lastName.value.trim()) { showFieldError(lastName, 'نام خانوادگی را وارد کنید'); valid = false; }
+
+        const normPhone = normalizePhone(phoneInput.value);
+        if (!/^09\d{9}$/.test(normPhone)) {
+            showFieldError(phoneInput, 'شماره موبایل معتبر وارد کنید (مثال: ۰۹۱۲۳۴۵۶۷۸۹)');
+            valid = false;
+        } else {
+            const existsApproved = getApprovedStudents().some(s => normalizePhone(s.phone) === normPhone);
+            const existsPending = getRequests().some(r => normalizePhone(r.phone) === normPhone && r.status === 'pending');
+            if (existsApproved) {
+                showFieldError(phoneInput, 'این شماره قبلاً تایید و ثبت نهایی شده است');
+                valid = false;
+            } else if (existsPending) {
+                showFieldError(phoneInput, 'برای این شماره قبلاً درخواست در انتظار تایید ارسال شده است');
+                valid = false;
+            }
+        }
+
+        const ageVal = parseInt(age.value, 10);
+        if (isNaN(ageVal) || ageVal < 10 || ageVal > 99) {
+            showFieldError(age, 'سن باید بین ۱۰ تا ۹۹ باشد');
+            valid = false;
+        }
+
+        if (!gender.value) { showFieldError(gender, 'جنسیت را انتخاب کنید'); valid = false; }
+        if (!level.value) { showFieldError(level, 'مقطع تحصیلی را انتخاب کنید'); valid = false; }
+        if (!password.value || password.value.length < 6) {
+            showFieldError(password, 'رمز عبور حداقل ۶ کاراکتر باشد');
+            valid = false;
+        }
+        if (!terms.checked) {
+            alert('لطفاً تیک تایید شرایط ثبت‌نام را فعال کنید.');
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+            const reqId = 'req-' + Date.now();
+            const fullName = `${firstName.value.trim()} ${lastName.value.trim()}`;
+
+            const requests = getRequests();
+            requests.unshift({
+                id: reqId,
+                firstName: firstName.value.trim(),
+                lastName: lastName.value.trim(),
+                phone: normPhone,
+                age: ageVal,
+                gender: gender.value,
+                level: level.value,
+                requestedPassword: password.value,
+                status: 'pending',
+                createdAt: nowFormatted()
+            });
+            setRequests(requests);
+
+            const settings = getSettings();
+            if (settings.autoNotify !== false) {
+                const notifications = getNotifications();
+                notifications.unshift({
+                    id: 'notif-' + Date.now(),
+                    type: 'pending',
+                    title: `درخواست ثبت‌نام جدید: ${fullName}`,
+                    text: `دانش‌آموز با شماره ${formatPhone(normPhone)} (${level.value}) فرم ثبت‌نام را تکمیل کرد. در انتظار تایید منشی برای ثبت نام کاربری و رمز عبور است.`,
+                    createdAt: nowFormatted(),
+                    read: false,
+                    requestId: reqId
+                });
+                setNotifications(notifications);
+            }
+
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            form.style.display = 'none';
+            formHeader.style.display = 'none';
+            successBox.classList.add('show');
+        }, 500);
+    });
+
+    newRegBtn.addEventListener('click', () => {
+        form.reset();
+        form.querySelectorAll('.error-msg').forEach(e => e.remove());
+        form.querySelectorAll('input, select').forEach(el => el.style.borderColor = '');
+        successBox.classList.remove('show');
+        formHeader.style.display = '';
+        form.style.display = 'flex';
+    });
+})();
+
+// =====================================================
+// تایید / رد درخواست
+// =====================================================
+function approveStudentRequest(requestId) {
+    const requests = getRequests();
+    const target = requests.find(r => r.id === requestId);
+    if (!target || target.status !== 'pending') return;
+
+    target.status = 'approved';
+    target.approvedAt = nowFormatted();
+    setRequests(requests);
+
+    const approvedList = getApprovedStudents();
+    const alreadyIn = approvedList.some(s => normalizePhone(s.phone) === normalizePhone(target.phone));
+    if (!alreadyIn) {
+        approvedList.unshift({
+            id: Date.now(),
+            firstName: target.firstName,
+            lastName: target.lastName,
+            gender: target.gender,
+            age: target.age,
+            level: target.level,
+            phone: normalizePhone(target.phone),
+            passwordHashOrPlain: target.requestedPassword,
+            approvedAt: target.approvedAt
+        });
+        setApprovedStudents(approvedList);
+    }
+
+    const notifications = getNotifications();
+    notifications.forEach(n => {
+        if (n.requestId === requestId) n.read = true;
+    });
+    notifications.unshift({
+        id: 'notif-app-' + Date.now(),
+        type: 'approved',
+        title: `حساب تایید شد: ${target.firstName} ${target.lastName}`,
+        text: `نام کاربری (${formatPhone(target.phone)}) و رمز عبور این دانش‌آموز از هم‌اکنون در سیستم ثبت و فعال شد.`,
+        createdAt: nowFormatted(),
+        read: false,
+        requestId: null
+    });
+    setNotifications(notifications);
+
+    refreshSecretaryUI();
+}
+
+function rejectStudentRequest(requestId) {
+    const requests = getRequests();
+    const target = requests.find(r => r.id === requestId);
+    if (!target || target.status !== 'pending') return;
+
+    target.status = 'rejected';
+    setRequests(requests);
+
+    const notifications = getNotifications();
+    notifications.forEach(n => {
+        if (n.requestId === requestId) n.read = true;
+    });
+    setNotifications(notifications);
+
+    refreshSecretaryUI();
+}
+
+// =====================================================
+// ورود
+// =====================================================
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const usernameRaw = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    loginError.classList.remove('show');
+    loginPendingAlert.classList.remove('show');
+
+    if (!usernameRaw || !password) {
+        loginError.textContent = 'نام کاربری و رمز عبور را وارد کنید.';
+        loginError.classList.add('show');
+        return;
+    }
+
+    if (usernameRaw === 'rasool' && password === 'rasool123') {
+        writeJSON(STORAGE_KEYS.SESSION, { role: 'secretary' });
+        loginPage.classList.remove('show');
+        registerContainer.style.display = 'none';
+        showSecretaryPanel();
+        return;
+    }
+
+    const normUser = normalizePhone(usernameRaw);
+
+    const approvedStudent = getApprovedStudents().find(
+        s => normalizePhone(s.phone) === normUser && s.passwordHashOrPlain === password
+    );
+
+    if (approvedStudent) {
+        writeJSON(STORAGE_KEYS.SESSION, { role: 'student', phone: approvedStudent.phone });
+        loginPage.classList.remove('show');
+        registerContainer.style.display = 'none';
+        showStudentPanel(approvedStudent);
+        return;
+    }
+
+    const pendingReq = getRequests().find(
+        r => normalizePhone(r.phone) === normUser && r.status === 'pending'
+    );
+
+    if (pendingReq) {
+        loginPendingAlert.textContent = 'حساب شما هنوز توسط منشی تایید نشده است. پس از تایید منشی، نام کاربری و رمز عبور شما فعال می‌شود.';
+        loginPendingAlert.classList.add('show');
+        return;
+    }
+
+    const rejectedReq = getRequests().find(
+        r => normalizePhone(r.phone) === normUser && r.status === 'rejected'
+    );
+    if (rejectedReq) {
+        loginError.textContent = 'درخواست ثبت‌نام این شماره تایید نشده است. با دفتر آموزش تماس بگیرید.';
+        loginError.classList.add('show');
+        return;
+    }
+
+    loginError.textContent = 'نام کاربری یا رمز عبور اشتباه است یا حساب هنوز فعال نشده است.';
+    loginError.classList.add('show');
+});
+
+// =====================================================
+// پنل منشی
+// =====================================================
+let studentSearchQuery = '';
+
+function showSecretaryPanel() {
+    secretaryPanel.classList.add('show');
+    syncSettingsInputs();
+    refreshSecretaryUI();
+}
+
+document.getElementById('secretaryLogoutBtn').addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEYS.SESSION);
+    openLoginPage();
+});
+
+document.querySelectorAll('#secretaryPanel .nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('#secretaryPanel .nav-item').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#secretaryPanel .tab-content').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+
+function refreshSecretaryUI() {
+    const approved = getApprovedStudents();
+    const requests = getRequests();
+    const pendingCount = requests.filter(r => r.status === 'pending').length;
+    const maleCount = approved.filter(s => s.gender === 'male').length;
+    const femaleCount = approved.filter(s => s.gender === 'female').length;
+
+    document.getElementById('pendingBadgeCount').textContent = toPersianNum(pendingCount);
+    document.getElementById('statApprovedTotal').textContent = toPersianNum(approved.length);
+    document.getElementById('statPendingTotal').textContent = toPersianNum(pendingCount);
+    document.getElementById('statMaleTotal').textContent = toPersianNum(maleCount);
+    document.getElementById('statFemaleTotal').textContent = toPersianNum(femaleCount);
+
+    renderNotificationsList();
+    renderApprovedStudentsList();
+}
+
+function renderNotificationsList() {
+    const listEl = document.getElementById('secretaryNoticesList');
+    const notifications = getNotifications();
+    const requests = getRequests();
+
+    if (!notifications.length) {
+        listEl.innerHTML = '<div style="text-align:center; padding:28px; color:var(--text-muted); font-size:0.82rem;">اعلانی ثبت نشده است.</div>';
+        return;
+    }
+
+    listEl.innerHTML = notifications.map(n => {
+        const req = n.requestId ? requests.find(r => r.id === n.requestId) : null;
+        const isActionablePending = req && req.status === 'pending';
+
+        const iconClass = n.type === 'pending' ? 'pending' : (n.type === 'approved' ? 'approved' : '');
+        const iconSymbol = n.type === 'pending' ? '⏳' : (n.type === 'approved' ? '✅' : 'ℹ️');
+
+        let statusBadge = '';
+        if (req) {
+            if (req.status === 'pending') statusBadge = '<span class="status-pill pending">در انتظار تایید</span>';
+            else if (req.status === 'approved') statusBadge = '<span class="status-pill approved">تایید و ثبت شد</span>';
+            else if (req.status === 'rejected') statusBadge = '<span class="status-pill rejected">رد شده</span>';
+        }
+
+        const actionsHtml = isActionablePending
+            ? `<div class="notice-actions">
+                   <button type="button" class="btn-approve" data-approve="${escapeHTML(req.id)}">تایید و ثبت نام‌کاربری/رمز</button>
+                   <button type="button" class="btn-reject" data-reject="${escapeHTML(req.id)}">رد درخواست</button>
+               </div>`
+            : '';
+
+        return `
+            <div class="notice-item ${n.read ? '' : 'unread'}">
+                <div class="notice-top">
+                    <div class="notice-icon ${iconClass}">${iconSymbol}</div>
+                    <div class="notice-body">
+                        <div class="notice-title">${escapeHTML(n.title)} ${statusBadge}</div>
+                        <div class="notice-text">${escapeHTML(n.text)}</div>
+                        <div class="notice-meta">${escapeHTML(n.createdAt)}</div>
+                    </div>
+                </div>
+                ${actionsHtml}
+            </div>
+        `;
+    }).join('');
+
+    listEl.querySelectorAll('[data-approve]').forEach(btn => {
+        btn.addEventListener('click', () => approveStudentRequest(btn.dataset.approve));
+    });
+
+    listEl.querySelectorAll('[data-reject]').forEach(btn => {
+        btn.addEventListener('click', () => rejectStudentRequest(btn.dataset.reject));
+    });
+}
+
+document.getElementById('markAllReadBtn').addEventListener('click', () => {
+    const list = getNotifications().map(n => ({ ...n, read: true }));
+    setNotifications(list);
+    refreshSecretaryUI();
+});
+
+function renderApprovedStudentsList() {
+    const listEl = document.getElementById('studentsList');
+    const students = getApprovedStudents();
+    const attendance = getAttendance();
+    const sessionCount = getSettings().sessions || 12;
+
+    const q = studentSearchQuery;
+    const filtered = q
+        ? students.filter(s =>
+            `${s.firstName} ${s.lastName}`.includes(q) ||
+            normalizePhone(s.phone).includes(normalizePhone(q))
+        )
+        : students;
+
+    if (!filtered.length) {
+        listEl.innerHTML = '<div style="text-align:center; padding:28px; color:var(--text-muted); font-size:0.82rem;">دانش‌آموز تاییدشده‌ای یافت نشد.</div>';
+        return;
+    }
+
+    listEl.innerHTML = '';
+
+    filtered.forEach(st => {
+        const card = document.createElement('div');
+        card.className = 'student-card';
+
+        const genderLabel = st.gender === 'male' ? 'آقا' : 'خانم';
+        const stAtt = attendance[st.id] || {};
+
+        const headers = Array.from({ length: sessionCount }, (_, i) => `<th>${toPersianNum(i + 1)}</th>`).join('');
+        const cells = Array.from({ length: sessionCount }, (_, i) => {
+            const idx = i + 1;
+            const val = stAtt[idx] || '';
+            const cls = val === 'present' ? 'present' : (val === 'absent' ? 'absent' : '');
+            const mark = val === 'present' ? '✓' : (val === 'absent' ? '✗' : '');
+            return `<td class="attendance-cell ${cls}" data-st="${st.id}" data-ses="${idx}">${mark}</td>`;
+        }).join('');
+
+        card.innerHTML = `
+            <div class="student-main">
+                <div class="student-info">
+                    <div class="student-avatar">${escapeHTML(st.firstName.charAt(0))}</div>
+                    <div>
+                        <div class="student-name">${escapeHTML(st.firstName)} ${escapeHTML(st.lastName)}</div>
+                        <div class="student-meta">
+                            <span class="meta-tag">${genderLabel}</span>
+                            <span class="meta-tag">${toPersianNum(st.age)} سال</span>
+                            <span class="meta-tag">${escapeHTML(st.level)}</span>
+                            <span class="meta-tag">حساب فعال</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="attendance-btn" data-toggle-st="${st.id}">اطلاعات و حضور و غیاب</button>
+            </div>
+
+            <div class="student-extra" id="extra-${st.id}">
+                <div class="extra-item"><span>نام کاربری (موبایل)</span><strong>${formatPhone(st.phone)}</strong></div>
+                <div class="extra-item"><span>مقطع تحصیلی</span><strong>${escapeHTML(st.level)}</strong></div>
+                <div class="extra-item"><span>سن</span><strong>${toPersianNum(st.age)} سال</strong></div>
+                <div class="extra-item"><span>تاریخ تایید</span><strong>${escapeHTML(st.approvedAt || '—')}</strong></div>
+            </div>
+
+            <div class="attendance-table-wrapper" id="att-${st.id}">
+                <table class="attendance-table">
+                    <thead>
+                        <tr><th>جلسه</th>${headers}</tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>وضعیت</td>${cells}</tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        listEl.appendChild(card);
+    });
+
+    listEl.querySelectorAll('[data-toggle-st]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.toggleSt;
+            const extra = document.getElementById('extra-' + id);
+            const att = document.getElementById('att-' + id);
+            const willOpen = !att.classList.contains('show');
+
+            listEl.querySelectorAll('.student-extra').forEach(e => e.classList.remove('show'));
+            listEl.querySelectorAll('.attendance-table-wrapper').forEach(a => a.classList.remove('show'));
+            listEl.querySelectorAll('.attendance-btn').forEach(b => b.classList.remove('active'));
+
+            if (willOpen) {
+                extra.classList.add('show');
+                att.classList.add('show');
+                btn.classList.add('active');
+            }
+        });
+    });
+
+    listEl.querySelectorAll('.attendance-cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            const stId = cell.dataset.st;
+            const ses = cell.dataset.ses;
+            const cur = cell.classList.contains('present') ? 'present' : (cell.classList.contains('absent') ? 'absent' : 'none');
+            const next = cur === 'none' ? 'present' : (cur === 'present' ? 'absent' : 'none');
+
+            cell.classList.remove('present', 'absent');
+            if (next === 'present') {
+                cell.classList.add('present');
+                cell.textContent = '✓';
+            } else if (next === 'absent') {
+                cell.classList.add('absent');
+                cell.textContent = '✗';
+            } else {
+                cell.textContent = '';
+            }
+
+            const allAtt = getAttendance();
+            if (!allAtt[stId]) allAtt[stId] = {};
+            if (next === 'none') delete allAtt[stId][ses];
+            else allAtt[stId][ses] = next;
+            setAttendance(allAtt);
+        });
+    });
+}
+
+document.getElementById('studentSearch').addEventListener('input', (e) => {
+    studentSearchQuery = e.target.value.trim();
+    renderApprovedStudentsList();
+});
+
+// =====================================================
+// پنل دانش‌آموز
+// =====================================================
+function showStudentPanel(student) {
+    document.getElementById('studentPanelTitle').textContent = `${student.firstName} ${student.lastName}`;
+    document.getElementById('studentPanelSub').textContent = `نام کاربری فعال: ${formatPhone(student.phone)}`;
+
+    const attendance = getAttendance()[student.id] || {};
+    const sessionCount = getSettings().sessions || 12;
+    const presentCount = Object.values(attendance).filter(v => v === 'present').length;
+    const absentCount = Object.values(attendance).filter(v => v === 'absent').length;
+
+    const rowsHtml = Array.from({ length: sessionCount }, (_, i) => {
+        const idx = i + 1;
+        const st = attendance[idx];
+        const label = st === 'present' ? 'حاضر ✓' : (st === 'absent' ? 'غایب ✗' : 'ثبت‌نشده');
+        const cls = st === 'present' ? 'present' : (st === 'absent' ? 'absent' : '');
+        return `<tr><td>جلسه ${toPersianNum(idx)}</td><td class="${cls}">${label}</td></tr>`;
+    }).join('');
+
+    document.getElementById('studentPanelBody').innerHTML = `
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="num" style="color:#34D399;">${toPersianNum(presentCount)}</div>
+                <div class="lbl">جلسات حاضر</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" style="color:#FCA5A5;">${toPersianNum(absentCount)}</div>
+                <div class="lbl">جلسات غایب</div>
+            </div>
+            <div class="stat-card">
+                <div class="num">${toPersianNum(sessionCount)}</div>
+                <div class="lbl">کل جلسات</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" style="font-size:1rem;">${escapeHTML(student.level)}</div>
+                <div class="lbl">مقطع تحصیلی</div>
+            </div>
+        </div>
+
+        <div class="section-title"><span>📋 وضعیت حضور و غیاب من</span></div>
+        <div class="attendance-table-wrapper show">
+            <table class="attendance-table" style="min-width:100%;">
+                <thead><tr><th>عنوان جلسه</th><th>وضعیت</th></tr></thead>
+                <tbody>${rowsHtml}</tbody>
+            </table>
+        </div>
+    `;
+
+    studentPanel.classList.add('show');
+}
+
+document.getElementById('studentLogoutBtn').addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEYS.SESSION);
+    openLoginPage();
+});
+
+// =====================================================
+// تنظیمات، خروجی و بازنشانی
+// =====================================================
+function syncSettingsInputs() {
+    const s = getSettings();
+    document.getElementById('settingAutoNotify').checked = !!s.autoNotify;
+    document.getElementById('settingSessions').value = s.sessions || 12;
+}
+
+document.getElementById('settingAutoNotify').addEventListener('change', (e) => {
+    const s = getSettings();
+    s.autoNotify = e.target.checked;
+    setSettings(s);
+});
+
+document.getElementById('settingSessions').addEventListener('change', (e) => {
+    const val = Math.max(1, Math.min(30, parseInt(e.target.value, 10) || 12));
+    e.target.value = val;
+    const s = getSettings();
+    s.sessions = val;
+    setSettings(s);
+    renderApprovedStudentsList();
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+    const payload = {
+        approvedStudents: getApprovedStudents(),
+        requests: getRequests(),
+        notifications: getNotifications(),
+        attendance: getAttendance(),
+        settings: getSettings(),
+        exportedAt: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ai-learn-backup.json';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+// مودال
+let pendingModalAction = null;
+const confirmModal = document.getElementById('confirmModal');
+
+function openConfirmModal(title, message, onConfirm) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalMessage').textContent = message;
+    pendingModalAction = onConfirm;
+    confirmModal.classList.add('show');
+}
+
+document.getElementById('modalCancel').addEventListener('click', () => {
+    confirmModal.classList.remove('show');
+    pendingModalAction = null;
+});
+
+document.getElementById('modalConfirm').addEventListener('click', () => {
+    confirmModal.classList.remove('show');
+    if (typeof pendingModalAction === 'function') pendingModalAction();
+    pendingModalAction = null;
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+    openConfirmModal(
+        'بازنشانی اطلاعات',
+        'تمام درخواست‌ها، اعلانات، دانش‌آموزان تاییدشده و سوابق حضور و غیاب پاک می‌شوند. ادامه می‌دهید؟',
+        () => {
+            Object.entries(STORAGE_KEYS).forEach(([k, v]) => {
+                if (v !== STORAGE_KEYS.SESSION) localStorage.removeItem(v);
+            });
+            ensureSeedData();
+            syncSettingsInputs();
+            refreshSecretaryUI();
+        }
+    );
+});
+
+// =====================================================
+// بازیابی نشست
+// =====================================================
+(function restoreSession() {
+    const session = readJSON(STORAGE_KEYS.SESSION, null);
+    if (!session) return;
+
+    if (session.role === 'secretary') {
+        registerContainer.style.display = 'none';
+        showSecretaryPanel();
+    } else if (session.role === 'student' && session.phone) {
+        const st = getApprovedStudents().find(s => normalizePhone(s.phone) === normalizePhone(session.phone));
+        if (st) {
+            registerContainer.style.display = 'none';
+            showStudentPanel(st);
+        } else {
+            localStorage.removeItem(STORAGE_KEYS.SESSION);
+        }
+    }
+})();
+
+// همگام‌سازی بین تب‌ها
+window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEYS.REQUESTS || e.key === STORAGE_KEYS.STUDENTS || e.key === STORAGE_KEYS.NOTIFICATIONS) {
+        const session = readJSON(STORAGE_KEYS.SESSION, null);
+        if (session?.role === 'secretary' && secretaryPanel.classList.contains('show')) {
+            refreshSecretaryUI();
+        }
+    }
+});
+</script>
+</body>
+</html>
