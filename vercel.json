@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/index.py", "use": "@vercel/python" }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index" }
+  "functions": {
+    "api/vercel_wsgi.py": {
+      "runtime": "python3.11"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/vercel_wsgi.py"
+    }
   ]
 }
